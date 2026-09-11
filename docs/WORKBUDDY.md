@@ -13,13 +13,14 @@ User:
 ```
 
 WorkBuddy will automatically:
-1. Detect or acquire the local CharacterOS runtime.
-2. Verify server health.
-3. Prompt you conversationally for your story requirements:
+1. Prompt you conversationally for your story requirements FIRST:
    - Premise / Concept
    - Format (e.g. Screenplay, Novel outline)
    - Cast size (4–6 characters)
    - Genre and Tone
+2. Acquire or update the cryptographically verified CharacterOS runtime from Git.
+3. Generate the complete universe in a single pass using your answers.
+4. Launch the local workbench server and provide your interactive URL.
 
 ### Natural Intake
 You can provide everything in one go:

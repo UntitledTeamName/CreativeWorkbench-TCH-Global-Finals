@@ -1,10 +1,17 @@
 # CharacterOS
 
-**CharacterOS** is an offline-first, localhost-first creative writing workbench and narrative compiler. Part of [CharacterOS: Creative Workbench for Workbuddy](https://github.com/UntitledTeamName/CharacterOS). It transforms a single premise into a fully connected, structurally sound story universe with cast profiles, asymmetric relationship maps, narrative gap additions, a 4-category visual prompt kit, and directional story seeds.
+**CharacterOS** is an offline-first, localhost-first creative writing workbench and narrative compiler. Part of [CharacterOS: Creative Workbench for Workbuddy](https://github.com/mrc2rules/CharacterOS). It transforms a single premise into a fully connected, structurally sound story universe with cast profiles, asymmetric relationship maps, narrative gap additions, a 4-category visual prompt kit, and directional story seeds.
 
 ---
 
-## Final Architecture Overview
+## Architecture & Lifecycle Overview
+
+The skill follows a strict **prompt-first lifecycle**:
+1. Conversational input gathering occurs **first** before runtime acquisition or generation.
+2. All required answers are collected conversationally.
+3. Cryptographically verified runtime is acquired or updated from Git (`https://github.com/mrc2rules/CharacterOS.git`).
+4. Story universe is generated in a single pass using collected answers.
+5. Local loopback server is launched from the immutable verified release (`~/.characteros-tools/releases/<key>/`).
 
 ```text
 USER (Writer)
@@ -13,27 +20,25 @@ USER (Writer)
   ▼
 WORKBUDDY (Conversational & Creative Agent)
   │
-  ▼
-CharacterOS Skill
-  │  ├── Detects / acquires runtime (Modes 1, 2, 3)
-  │  ├── Starts / reuses local server
-  │  ├── Collects requirements conversationally
-  │  ├── Generates complete universe in one pass
-  │  └── Submits & persists via localhost API
+  ├── 1. Gathers story premise, format, cast size, tone, and genre FIRST
+  ├── 2. Resolves remote Git ref (git ls-remote) & verifies runtime integrity
+  ├── 3. Mounts verified immutable release (~/.characteros-tools/releases/<key>/)
+  ├── 4. Generates complete universe in one pass using collected answers
+  └── 5. Submits & persists via localhost API, launching detached host process
   │
   │ HTTP (JSON) on 127.0.0.1:8765
   ▼
 LOCAL CHARACTEROS RUNTIME SERVER
   │  ├── Schema validation & deterministic compilers
   │  ├── Workspace persistence (~/.characteros/)
-  │  └── Bundled production web assets
+  │  └── Bundled production web assets (web/index.html)
   │
   ▼
 BROWSER WORKBENCH (http://127.0.0.1:8765/?workspace=<id>)
 ```
 
 - **WorkBuddy is the sole agent and creative orchestrator.**
-- **The Skill is the integration contract.**
+- **The Skill uses Git-based, SHA-256 verified runtime distribution.**
 - **CharacterOS is the deterministic workbench and persistent store.**
 - **No separate Expert team architecture.**
 - **No SaaS or cloud dependency.**

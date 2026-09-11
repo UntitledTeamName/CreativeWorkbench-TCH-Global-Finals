@@ -9,14 +9,14 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/UntitledTeamName/CharacterOS.git
+   git clone https://github.com/mrc2rules/CharacterOS.git
    ```
 2. Run tests:
    ```bash
    python -m unittest discover -s tests -p "test_*.py"
    node tests/core.test.cjs
    ```
-3. Start the development server:
+3. Start the development server (explicit dev mode):
    ```bash
    python -m story_universe_architect.server --port 8765
    ```

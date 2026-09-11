@@ -14,13 +14,13 @@ WORKBUDDY (Conversational & Creative Agent)
   ▼
 CharacterOS Skill
   │
-  ├── 1. Detects or acquires local CharacterOS runtime (Mode 1, 2, or 3)
-  ├── 2. Starts or reuses the local server on 127.0.0.1:8765
-  ├── 3. Collects story requirements conversationally (Premise, Format, Cast Size, Tone, Genre)
-  ├── 4. Generates complete universe in a single pass
+  ├── 1. Prompts writer and collects story requirements conversationally FIRST
+  ├── 2. Resolves remote Git ref (git ls-remote) and verifies runtime integrity
+  ├── 3. Mounts or updates immutable verified release (~/.characteros-tools/releases/<key>/)
+  ├── 4. Generates complete universe in a single pass using collected answers
   ├── 5. Submits and validates universe via localhost REST API
-  ├── 6. Persists canonical universe to user workspace
-  └── 7. Delivers concise summary + localhost URL to user
+  ├── 6. Persists canonical universe to user workspace (~/.characteros/workspaces/)
+  └── 7. Launches detached local server and delivers URL to user
   │
   │ localhost HTTP (JSON)
   ▼

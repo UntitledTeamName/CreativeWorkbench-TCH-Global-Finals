@@ -1,15 +1,16 @@
-"""CharacterOS connection, runtime acquisition, and API client.
+"""CharacterOS Git-based immutable runtime acquisition, integrity verification, and API client.
 
-Handles:
-1. Three runtime acquisition modes:
-   - Mode 1: Local development repository
-   - Mode 2: Pre-installed runtime wheel
-   - Mode 3: Automatic verified GitHub release acquisition
-2. Server detection, startup, and health checking.
-3. Workspace and universe validation/persistence operations.
+Architecture:
+1. Git-based shallow acquisition into a clean staging directory.
+2. Cryptographic SHA-256 verification of all declared runtime files against runtime-manifest.json.
+3. Atomic installation into an immutable release directory under ~/.characteros-tools/releases/<key>/.
+4. Detached loopback-only server hosting (127.0.0.1).
+5. Safe caching and remote update detection via git ls-remote.
+6. Explicit development mode (--dev / CHARACTEROS_DEV=1) strictly separated from production flow.
 """
 from __future__ import annotations
 
+import datetime
 import hashlib
 import json
 import os
@@ -20,128 +21,304 @@ import sys
 import time
 import urllib.error
 import urllib.request
-import zipfile
+import uuid
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 SKILL_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_PORT = 8765
 MOVABLE_PORTS = tuple(range(8765, 8771))
-CACHE_DIR = Path.home() / ".characteros" / "releases"
+DEFAULT_REPO_URL = "https://github.com/mrc2rules/CharacterOS.git"
+DEFAULT_REF = "main"
 
 
-def read_installation_meta() -> dict:
-    meta_path = SKILL_DIR / "references" / "installation.json"
-    if meta_path.is_file():
-        try:
-            return json.loads(meta_path.read_text(encoding="utf-8"))
-        except Exception:
-            pass
+def get_tools_base_dir() -> Path:
+    """Base directory for CharacterOS immutable releases and temporary staging."""
+    override = os.environ.get("CHARACTEROS_TOOLS_DIR")
+    if override and override.strip():
+        return Path(override.strip()).expanduser().resolve()
+    return Path.home() / ".characteros-tools"
+
+
+def get_releases_dir() -> Path:
+    return get_tools_base_dir() / "releases"
+
+
+def get_staging_dir() -> Path:
+    return get_tools_base_dir() / "staging"
+
+
+def read_installation_config(custom_config: Optional[Union[dict, Path, str]] = None) -> dict:
+    """Read configuration containing repository_url, ref, and expected_commit."""
+    if isinstance(custom_config, dict):
+        cfg = dict(custom_config)
+    elif custom_config and Path(custom_config).is_file():
+        cfg = json.loads(Path(custom_config).read_text(encoding="utf-8"))
+    else:
+        meta_path = SKILL_DIR / "references" / "installation.json"
+        if meta_path.is_file():
+            try:
+                cfg = json.loads(meta_path.read_text(encoding="utf-8"))
+            except Exception:
+                cfg = {}
+        else:
+            cfg = {}
+
+    repo_url = cfg.get("repository_url") or cfg.get("repository") or DEFAULT_REPO_URL
+    ref = cfg.get("ref") or "main"
+    expected_commit = cfg.get("expected_commit")  # None or 40-char SHA string
+
     return {
-        "version": "1.1.0",
-        "artifact": "story_universe_architect_workbench-1.1.0-py3-none-any.whl",
-        "sha256": "",
+        "repository_url": repo_url.strip(),
+        "ref": ref.strip(),
+        "expected_commit": expected_commit.strip() if isinstance(expected_commit, str) and expected_commit.strip() else None,
     }
 
 
-# --- 1. Runtime Acquisition Modes ---
+def compute_release_key(repository_url: str, ref: str, resolved_commit: str) -> str:
+    """Compute deterministic, collision-resistant release key from runtime identity."""
+    identity = [repository_url.lower().rstrip("/"), ref, resolved_commit]
+    data = json.dumps(identity, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(data).hexdigest()[:20]
 
-def detect_mode1_local_dev() -> Optional[Path]:
-    """Mode 1: Detect repository source checkout."""
+
+def find_runtime_source() -> Optional[Path]:
+    """Find local development source tree package if present."""
     for parent in [SKILL_DIR.parents[1], SKILL_DIR.parents[2], Path.cwd()]:
         pkg = parent / "src" / "story_universe_architect"
         if pkg.is_dir() and (pkg / "server.py").is_file():
-            return pkg.resolve()
+            return pkg
     return None
 
 
-def detect_mode2_preinstalled() -> bool:
-    """Mode 2: Checks if story_universe_architect is installed or importable in current Python."""
+def find_runtime_installed() -> Optional[str]:
+    """Detect if story_universe_architect is importable in current python environment."""
     try:
         import story_universe_architect
-        return True
+        return "story_universe_architect"
     except ImportError:
-        pass
+        return None
+
+
+def verify_sha256_bytes(content: bytes, expected_hash: str) -> bool:
+    """Verify cryptographic SHA-256 hash of bytes."""
+    actual = hashlib.sha256(content).hexdigest()
+    return actual.lower() == expected_hash.lower()
+
+
+def resolve_remote_commit(
+    repository_url: str,
+    ref: str,
+    expected_commit: Optional[str] = None,
+    timeout: float = 10.0
+) -> str:
+    """Resolve the target commit for acquisition.
+    
+    1. If expected_commit is pinned, use it directly.
+    2. Otherwise, query remote ref via git ls-remote.
+    3. If remote is unreachable, safely fall back to the newest matching local release.
+    """
+    if expected_commit:
+        return expected_commit
+
+    # Query remote ref
+    cmd = ["git", "ls-remote", repository_url, ref]
     try:
-        cmd = [sys.executable, "-c", "import story_universe_architect; print(story_universe_architect.__version__)"]
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=3, env=os.environ)
-        return res.returncode == 0
+        res = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            env={**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            for line in res.stdout.splitlines():
+                parts = line.strip().split()
+                if parts:
+                    sha = parts[0]
+                    if len(sha) >= 7 and all(c in "0123456789abcdefABCDEF" for c in sha):
+                        return sha
     except Exception:
-        return False
+        pass
+
+    # Network failure or unreachable remote: check for existing matching verified release
+    releases_dir = get_releases_dir()
+    if releases_dir.is_dir():
+        candidates = []
+        for d in releases_dir.iterdir():
+            receipt_path = d / "receipt.json"
+            if d.is_dir() and receipt_path.is_file():
+                try:
+                    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+                    if receipt.get("repository_url", "").lower() == repository_url.lower() and receipt.get("configured_ref") == ref:
+                        commit = receipt.get("resolved_commit")
+                        if commit and receipt.get("verification_status") == "verified":
+                            candidates.append((receipt_path.stat().st_mtime, commit))
+                except Exception:
+                    continue
+        if candidates:
+            candidates.sort(reverse=True)
+            return candidates[0][1]
+
+    raise RuntimeError(
+        f"Unable to resolve remote commit for ref '{ref}' from {repository_url} "
+        "and no existing verified local release was found."
+    )
 
 
-def acquire_mode3_cached_release(fixture_wheel: Optional[Path] = None) -> Path:
-    """Mode 3: Automatically acquire, verify, and unpack the official release wheel."""
-    meta = read_installation_meta()
-    version = meta.get("version", "1.1.0")
-    wheel_name = meta.get("artifact", f"story_universe_architect_workbench-{version}-py3-none-any.whl")
-    expected_sha = meta.get("sha256", "").strip()
+def verify_manifest(staging_dir: Path) -> dict:
+    """Verify cryptographic SHA-256 integrity of all declared files in runtime-manifest.json."""
+    manifest_path = staging_dir / "runtime-manifest.json"
+    if not manifest_path.is_file():
+        raise ValueError("Runtime integrity error: 'runtime-manifest.json' not found in acquired repository.")
 
-    target_dir = CACHE_DIR / version
-    wheel_target = target_dir / wheel_name
-    extracted_pkg = target_dir / "story_universe_architect"
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception as ex:
+        raise ValueError(f"Runtime integrity error: Failed to parse runtime-manifest.json: {ex}") from ex
 
-    if extracted_pkg.is_dir() and (extracted_pkg / "server.py").is_file():
-        return extracted_pkg
+    declared_files = manifest.get("files")
+    if not isinstance(declared_files, dict) or not declared_files:
+        raise ValueError("Runtime integrity error: runtime-manifest.json contains no 'files' dictionary.")
 
-    target_dir.mkdir(parents=True, exist_ok=True)
+    for rel_path, expected_hash in declared_files.items():
+        target_file = staging_dir / rel_path
+        if not target_file.is_file():
+            raise ValueError(f"Runtime integrity check failed: Missing required file '{rel_path}'.")
 
-    # 1. Acquire wheel: from fixture/dist or download
-    if fixture_wheel and Path(fixture_wheel).is_file():
-        shutil.copy2(fixture_wheel, wheel_target)
-    elif (SKILL_DIR.parents[1] / "dist" / wheel_name).is_file():
-        shutil.copy2(SKILL_DIR.parents[1] / "dist" / wheel_name, wheel_target)
-    elif not wheel_target.is_file():
-        repo = meta.get("repository", "https://github.com/UntitledTeamName/CharacterOS")
-        tag = meta.get("release_tag", f"v{version}")
-        url = f"{repo}/releases/download/{tag}/{wheel_name}"
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "CharacterOS-Skill"})
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                wheel_target.write_bytes(resp.read())
-        except Exception as ex:
-            raise RuntimeError(f"Failed to download release wheel from {url}: {ex}") from ex
+        h = hashlib.sha256()
+        with target_file.open("rb") as f:
+            while chunk := f.read(65536):
+                h.update(chunk)
+        actual_hash = h.hexdigest()
 
-    # 2. Verify SHA-256 integrity
-    if expected_sha:
-        actual_sha = hashlib.sha256(wheel_target.read_bytes()).hexdigest()
-        if actual_sha.lower() != expected_sha.lower():
-            wheel_target.unlink(missing_ok=True)
+        if actual_hash.lower() != expected_hash.lower():
             raise ValueError(
-                f"Runtime integrity check failed for {wheel_name}!\n"
-                f"Expected SHA-256: {expected_sha}\n"
-                f"Actual SHA-256:   {actual_sha}"
+                f"Runtime integrity check failed for '{rel_path}' (Hash mismatch)!\n"
+                f"Expected SHA-256: {expected_hash}\n"
+                f"Actual SHA-256:   {actual_hash}"
             )
 
-    # 3. Extract pure wheel contents to cache dir
-    with zipfile.ZipFile(wheel_target, "r") as z:
-        z.extractall(target_dir)
-
-    if not extracted_pkg.is_dir():
-        raise RuntimeError(f"Wheel extraction did not produce expected package: {extracted_pkg}")
-
-    return extracted_pkg
+    return manifest
 
 
-def resolve_runtime_command(fixture_wheel: Optional[Path] = None) -> Tuple[str, List[str]]:
-    """Determine the python invocation command for the acquired runtime."""
-    # Mode 1
-    dev_path = detect_mode1_local_dev()
-    if dev_path:
-        src_root = dev_path.parent
-        return "mode1_dev", [sys.executable, "-m", "story_universe_architect.server"]
+def acquire_git_runtime(
+    repository_url: str,
+    ref: str,
+    target_commit: str,
+    release_key: str,
+    timeout: float = 60.0
+) -> Path:
+    """Shallow git fetch into a temporary staging directory, verify manifest, and atomically install."""
+    releases_dir = get_releases_dir()
+    staging_dir = get_staging_dir()
+    release_path = releases_dir / release_key
 
-    # Mode 2
-    if detect_mode2_preinstalled():
-        return "mode2_installed", [sys.executable, "-m", "story_universe_architect.server"]
+    # If already installed and verified, return
+    if release_path.is_dir() and (release_path / "receipt.json").is_file():
+        try:
+            rc = json.loads((release_path / "receipt.json").read_text(encoding="utf-8"))
+            if rc.get("verification_status") == "verified":
+                return release_path
+        except Exception:
+            pass
 
-    # Mode 3
-    cached_pkg = acquire_mode3_cached_release(fixture_wheel)
-    cache_root = cached_pkg.parent
-    return "mode3_acquired", [sys.executable, "-m", "story_universe_architect.server"]
+    releases_dir.mkdir(parents=True, exist_ok=True)
+    staging_dir.mkdir(parents=True, exist_ok=True)
+
+    stage_id = f"stage-{uuid.uuid4().hex[:12]}"
+    current_stage = staging_dir / stage_id
+    current_stage.mkdir(parents=True, exist_ok=True)
+
+    try:
+        # 1. Initialize git in staging
+        env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+        subprocess.run(["git", "init", "--quiet", str(current_stage)], check=True, capture_output=True, env=env)
+        subprocess.run(["git", "-C", str(current_stage), "remote", "add", "origin", repository_url], check=True, capture_output=True, env=env)
+
+        # 2. Shallow fetch ref or commit
+        fetch_cmd = ["git", "-C", str(current_stage), "fetch", "--depth", "1", "origin", ref]
+        res_fetch = subprocess.run(fetch_cmd, capture_output=True, text=True, timeout=timeout, env=env)
+        if res_fetch.returncode != 0:
+            # Fallback: try fetching target commit directly
+            res_fetch2 = subprocess.run(["git", "-C", str(current_stage), "fetch", "--depth", "1", "origin", target_commit], capture_output=True, text=True, timeout=timeout, env=env)
+            if res_fetch2.returncode != 0:
+                raise RuntimeError(f"Git fetch failed: {res_fetch.stderr or res_fetch2.stderr}")
+
+        subprocess.run(["git", "-C", str(current_stage), "checkout", "--detach", "--quiet", "FETCH_HEAD"], check=True, capture_output=True, env=env)
+
+        # 3. Cryptographically verify runtime manifest
+        manifest = verify_manifest(current_stage)
+
+        # 4. Write installation receipt
+        receipt = {
+            "repository_url": repository_url,
+            "configured_ref": ref,
+            "resolved_commit": target_commit,
+            "release_key": release_key,
+            "verification_status": "verified",
+            "installed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "manifest_version": manifest.get("manifest_version", "2.0"),
+            "files_count": len(manifest.get("files", {})),
+        }
+        (current_stage / "receipt.json").write_text(json.dumps(receipt, indent=2), encoding="utf-8")
+
+        # 5. Atomic installation
+        if release_path.exists():
+            shutil.rmtree(release_path, ignore_errors=True)
+
+        try:
+            os.replace(str(current_stage), str(release_path))
+        except OSError:
+            shutil.move(str(current_stage), str(release_path))
+
+        return release_path
+
+    except Exception:
+        # Clean up staging directory on any error
+        if current_stage.exists():
+            shutil.rmtree(current_stage, ignore_errors=True)
+        raise
 
 
-# --- 2. Port & Process Management ---
+def acquire_runtime(
+    is_dev: bool = False,
+    force_refresh: bool = False,
+    custom_config: Optional[Union[dict, Path, str]] = None,
+) -> Path:
+    """Acquire or verify CharacterOS runtime.
+    
+    If is_dev is True (or CHARACTEROS_DEV=1), uses the explicit local development tree.
+    Otherwise, uses the Git-based immutable release distribution model.
+    """
+    if is_dev or os.environ.get("CHARACTEROS_DEV") == "1":
+        for parent in [SKILL_DIR.parents[1], SKILL_DIR.parents[2], Path.cwd()]:
+            pkg = parent / "src" / "story_universe_architect"
+            if pkg.is_dir() and (pkg / "server.py").is_file():
+                return parent
+        raise RuntimeError("Explicit development mode (--dev) requested, but local source checkout was not found.")
+
+    config = read_installation_config(custom_config)
+    repo_url = config["repository_url"]
+    ref = config["ref"]
+    expected_commit = config["expected_commit"]
+
+    resolved_commit = resolve_remote_commit(repo_url, ref, expected_commit)
+    release_key = compute_release_key(repo_url, ref, resolved_commit)
+
+    release_path = get_releases_dir() / release_key
+    if not force_refresh and release_path.is_dir() and (release_path / "receipt.json").is_file():
+        try:
+            rc = json.loads((release_path / "receipt.json").read_text(encoding="utf-8"))
+            if rc.get("verification_status") == "verified":
+                return release_path
+        except Exception:
+            pass
+
+    return acquire_git_runtime(repo_url, ref, resolved_commit, release_key)
+
+
+# --- Port & Process Management ---
 
 def screen_port(port: int, timeout: float = 0.25) -> bool:
     s = socket.socket()
@@ -175,27 +352,35 @@ def find_active_server() -> Optional[Tuple[int, dict]]:
     return None
 
 
-def ensure_server_running(port: int = DEFAULT_PORT, fixture_wheel: Optional[Path] = None) -> Tuple[int, dict]:
+def ensure_server_running(
+    port: int = DEFAULT_PORT,
+    is_dev: bool = False,
+    force_refresh: bool = False,
+    custom_config: Optional[Union[dict, Path, str]] = None,
+    data_dir: Optional[Union[Path, str]] = None,
+) -> Tuple[int, dict]:
+    """Ensure CharacterOS server is running against the verified acquired runtime."""
     active = find_active_server()
     if active:
         return active
 
-    mode_name, base_cmd = resolve_runtime_command(fixture_wheel)
+    runtime_root = acquire_runtime(is_dev=is_dev, force_refresh=force_refresh, custom_config=custom_config)
+    src_dir = runtime_root / "src"
+    if not (src_dir / "story_universe_architect" / "server.py").is_file():
+        raise RuntimeError(f"Verified runtime does not contain server.py: {src_dir}")
+
     target_port = next((p for p in [port, *MOVABLE_PORTS] if not screen_port(p)), None)
     if target_port is None:
-        raise RuntimeError(f"No free port available in range {DEFAULT_PORT}-{MOVABLE_PORTS[-1]}")
+        raise RuntimeError(f"No free loopback port available in range {DEFAULT_PORT}-{MOVABLE_PORTS[-1]}")
 
     env = os.environ.copy()
-    if mode_name == "mode1_dev":
-        dev_pkg = detect_mode1_local_dev()
-        if dev_pkg:
-            env["PYTHONPATH"] = str(dev_pkg.parent)
-    elif mode_name == "mode3_acquired":
-        meta = read_installation_meta()
-        v = meta.get("version", "1.1.0")
-        env["PYTHONPATH"] = str(CACHE_DIR / v)
+    env["PYTHONPATH"] = str(src_dir)
+    env["PYTHONUTF8"] = "1"
 
-    cmd = [*base_cmd, "--port", str(target_port), "--no-browser"]
+    cmd = [sys.executable, "-m", "story_universe_architect.server", "--port", str(target_port), "--no-browser"]
+    if data_dir:
+        cmd.extend(["--data-dir", str(data_dir)])
+
     popen_kwargs = dict(
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
@@ -225,15 +410,28 @@ def ensure_server_running(port: int = DEFAULT_PORT, fixture_wheel: Optional[Path
     raise TimeoutError(f"CharacterOS server started on port {target_port} but failed health check within 15 seconds.")
 
 
-# --- 3. Client API Operations ---
+# --- Client API Operations ---
 
 class CharacterOSClient:
-    def __init__(self, port: Optional[int] = None, fixture_wheel: Optional[Path] = None):
+    def __init__(
+        self,
+        port: Optional[int] = None,
+        is_dev: bool = False,
+        force_refresh: bool = False,
+        custom_config: Optional[Union[dict, Path, str]] = None,
+        data_dir: Optional[Union[Path, str]] = None,
+    ):
         if port and probe_server(port):
             self.port = port
             self.server_info = probe_server(port)
         else:
-            self.port, self.server_info = ensure_server_running(port or DEFAULT_PORT, fixture_wheel)
+            self.port, self.server_info = ensure_server_running(
+                port or DEFAULT_PORT,
+                is_dev=is_dev,
+                force_refresh=force_refresh,
+                custom_config=custom_config,
+                data_dir=data_dir,
+            )
         self.base_url = f"http://127.0.0.1:{self.port}"
 
     def _request(self, path: str, method: str = "GET", body: Optional[dict] = None) -> dict:
@@ -295,17 +493,6 @@ class CharacterOSClient:
         return f"{self.base_url}/?workspace={workspace_id}"
 
 
-# Aliases and verification helper
+# Backward compatibility aliases
 SUAClient = CharacterOSClient
 StoryUniverseClient = CharacterOSClient
-find_runtime_source = detect_mode1_local_dev
-find_runtime_installed = lambda: "story_universe_architect" if detect_mode2_preinstalled() else None
-
-
-def verify_sha256_bytes(data: bytes, expected_sha: str) -> bool:
-    """Verify SHA-256 integrity of binary data."""
-    if not expected_sha:
-        return True
-    actual = hashlib.sha256(data).hexdigest()
-    return actual.lower() == expected_sha.lower()
-

@@ -6,16 +6,20 @@ import json
 import sys
 from pathlib import Path
 
-from story_universe_connect import CharacterOSClient, ensure_server_running, find_active_server
+from story_universe_connect import CharacterOSClient, find_active_server
 
 
-def main():
+def main(argv: list[str] | None = None):
     ap = argparse.ArgumentParser(description="WorkBuddy CharacterOS CLI adapter.")
+    ap.add_argument("--dev", action="store_true", help="Explicit local development mode (uses local source checkout).")
+    ap.add_argument("--refresh", action="store_true", help="Force remote check / update of acquired runtime.")
+    ap.add_argument("--config", type=str, default=None, help="Custom installation config JSON path.")
+    ap.add_argument("--port", type=int, default=None, help="Target loopback port.")
+
     sub = ap.add_subparsers(dest="action")
 
     # start
-    p_start = sub.add_parser("start", help="Ensure CharacterOS runtime is active and report URL.")
-    p_start.add_argument("--port", type=int, default=8765)
+    sub.add_parser("start", help="Ensure CharacterOS runtime is active and report URL.")
 
     # status
     sub.add_parser("status", help="Check if CharacterOS runtime is running.")
@@ -42,7 +46,7 @@ def main():
     p_url = sub.add_parser("url", help="Get localhost URL for a workspace.")
     p_url.add_argument("--workspace-id", "-w", required=True, help="Target workspace ID.")
 
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     if not args.action:
         ap.print_help()
         return 0
@@ -57,7 +61,12 @@ def main():
             print(json.dumps({"running": False}, indent=2))
             return 1
 
-    client = CharacterOSClient()
+    client = CharacterOSClient(
+        port=args.port,
+        is_dev=args.dev,
+        force_refresh=args.refresh,
+        custom_config=args.config,
+    )
 
     if args.action == "start":
         print(f"CharacterOS runtime ready: {client.base_url}")

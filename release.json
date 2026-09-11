@@ -7,9 +7,9 @@
   "schema_version": "1.0",
   "runtime_artifact": "story_universe_architect_workbench-1.1.0-py3-none-any.whl",
   "skill_artifact": "CharacterOS.zip",
-  "repository": "https://github.com/UntitledTeamName/CharacterOS",
+  "repository": "https://github.com/mrc2rules/CharacterOS.git",
   "release_tag": "v1.1.0",
   "min_python": "3.10",
-  "runtime_sha256": "1abd507510d716f72d7771cd3c3c85ab48b474f343c83128685b00669908f573",
-  "skill_sha256": "2759980e41cadff723e0427c13f244c66ba190fb7386137cd0866149e68dcde8"
+  "runtime_sha256": "64f4b178f941dfa28e60173e18a6529e346f5ed3735665dd869404fed4ab2761",
+  "skill_sha256": "f2fb65c298f68ab1cc0b492d89ffc375e42db24d2f5f440b35d84dba4fb5cae8"
 }
