@@ -8,8 +8,8 @@
   "wheel": "dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl",
   "skill_zip": "dist/CharacterOS.zip",
   "sha256": {
-    "wheel": "5fc51fcb3e082df4717e269471f16d85304af7dedb7fab11d2006d473e8d832b",
-    "skill": "b333446d1e28fc0053f5f87fd8714c5a10b91f44af22b979bef26def9c9eb5a9"
+    "wheel": "14304e46501ca0dc18e2e7851bb65589d83cbb0ae6fc121c83ca60a0914367cf",
+    "skill": "f69e5bf64cd31bb0fbcc35163c17c19ce2e7b3da30cd66c040043b540a293a87"
   },
   "compatibility": {
     "python": ">=3.10",
@@ -27,9 +27,9 @@
     "src/story_universe_architect/schemas/universe.schema.json": "bcaff141033db309a8b1a8bcb200c9763bd1596a1c376aaef46045ee8f126906",
     "src/story_universe_architect/server.py": "d191c20973604253f9d5e4e23e7d1a88c626fd814ac4a804d13164245c1c67f4",
     "src/story_universe_architect/store.py": "eea3004105d9c7dd462b9eb4ccc68a222bfafbc203a29e35a4fbb97abf9b8e20",
-    "src/story_universe_architect/web/app.js": "a0d61bbc5f7314470328867f94357319280d46c58c9b3b544275870671b01d08",
+    "src/story_universe_architect/web/app.js": "afc9b1f2f4193300ade5de7087646c3cd2d35d10f65ffc594078cd5c59b492a1",
     "src/story_universe_architect/web/core.js": "4ae68ff51937e879c48720827bc3907778d2296926ddc4b5f040984e0add4838",
-    "src/story_universe_architect/web/index.html": "a7ce23f9158d7b88659886f15fd197feddfcbd1a8a13be11052fa0f8866f6910",
+    "src/story_universe_architect/web/index.html": "052ef9933eddc8d4a316af7d306d18a638e18aeb3ec8e4ec13df77e8149ad7d3",
     "src/story_universe_architect/web/index.template.html": "c6983045c4bd00c2f14d25af9d8d4af6a22173b6b990699be5b9334ce097ee28",
     "src/story_universe_architect/web/style.css": "de1495592190cc61af297571271da9e44ec7aff32786b37368816bfd303dbdbc"
   }
