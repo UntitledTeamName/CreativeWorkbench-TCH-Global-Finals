@@ -11,11 +11,11 @@ DEFAULT_REPO_URL = "https://github.com/mrc2rules/CharacterOS.git"
 
 
 def file_sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        while chunk := f.read(65536):
-            h.update(chunk)
-    return h.hexdigest()
+    raw = path.read_bytes()
+    # Normalize line endings to canonical LF for text files so hashes are OS-independent
+    if path.suffix in (".py", ".json", ".html", ".css", ".js", ".md", ".txt"):
+        raw = raw.replace(b"\r\n", b"\n")
+    return hashlib.sha256(raw).hexdigest()
 
 
 def compute_runtime_files() -> dict[str, str]:

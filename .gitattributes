@@ -1,0 +1,10 @@
+# Enforce canonical LF line endings across all platforms
+* text=auto eol=lf
+*.json text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.whl binary
+*.zip binary

@@ -8,8 +8,8 @@
   "wheel": "dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl",
   "skill_zip": "dist/CharacterOS.zip",
   "sha256": {
-    "wheel": "64f4b178f941dfa28e60173e18a6529e346f5ed3735665dd869404fed4ab2761",
-    "skill": "f2fb65c298f68ab1cc0b492d89ffc375e42db24d2f5f440b35d84dba4fb5cae8"
+    "wheel": "5fc51fcb3e082df4717e269471f16d85304af7dedb7fab11d2006d473e8d832b",
+    "skill": "b333446d1e28fc0053f5f87fd8714c5a10b91f44af22b979bef26def9c9eb5a9"
   },
   "compatibility": {
     "python": ">=3.10",
@@ -25,11 +25,11 @@
     "src/story_universe_architect/schemas/archetypes.json": "7e86ac99eb7f66ac58259c959b0b8a6d71259de93082397a8326e3db68d89f4b",
     "src/story_universe_architect/schemas/themes.json": "503a168704511a560b4a673ab2eb375db815d14dc08c61e45698aad2a0a6c5b0",
     "src/story_universe_architect/schemas/universe.schema.json": "bcaff141033db309a8b1a8bcb200c9763bd1596a1c376aaef46045ee8f126906",
-    "src/story_universe_architect/server.py": "de8716b093e391fbbe777fe2685e05890f7bbcbfdc7f7d4270065308c947c3da",
+    "src/story_universe_architect/server.py": "d191c20973604253f9d5e4e23e7d1a88c626fd814ac4a804d13164245c1c67f4",
     "src/story_universe_architect/store.py": "eea3004105d9c7dd462b9eb4ccc68a222bfafbc203a29e35a4fbb97abf9b8e20",
     "src/story_universe_architect/web/app.js": "a0d61bbc5f7314470328867f94357319280d46c58c9b3b544275870671b01d08",
     "src/story_universe_architect/web/core.js": "4ae68ff51937e879c48720827bc3907778d2296926ddc4b5f040984e0add4838",
-    "src/story_universe_architect/web/index.html": "601f5d516ca41731fac774e79c34a8baf066f8da6b77c2c3fc9db4be2701a1ae",
+    "src/story_universe_architect/web/index.html": "a7ce23f9158d7b88659886f15fd197feddfcbd1a8a13be11052fa0f8866f6910",
     "src/story_universe_architect/web/index.template.html": "c6983045c4bd00c2f14d25af9d8d4af6a22173b6b990699be5b9334ce097ee28",
     "src/story_universe_architect/web/style.css": "de1495592190cc61af297571271da9e44ec7aff32786b37368816bfd303dbdbc"
   }

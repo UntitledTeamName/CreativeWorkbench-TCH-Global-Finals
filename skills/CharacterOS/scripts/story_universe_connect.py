@@ -186,18 +186,21 @@ def verify_manifest(staging_dir: Path) -> dict:
         if not target_file.is_file():
             raise ValueError(f"Runtime integrity check failed: Missing required file '{rel_path}'.")
 
-        h = hashlib.sha256()
         with target_file.open("rb") as f:
-            while chunk := f.read(65536):
-                h.update(chunk)
-        actual_hash = h.hexdigest()
+            raw_content = f.read()
+        actual_hash = hashlib.sha256(raw_content).hexdigest()
 
         if actual_hash.lower() != expected_hash.lower():
-            raise ValueError(
-                f"Runtime integrity check failed for '{rel_path}' (Hash mismatch)!\n"
-                f"Expected SHA-256: {expected_hash}\n"
-                f"Actual SHA-256:   {actual_hash}"
-            )
+            # Tolerate OS line-ending conversion (CRLF vs LF) across platforms
+            normalized_hash = hashlib.sha256(raw_content.replace(b"\r\n", b"\n")).hexdigest()
+            if normalized_hash.lower() == expected_hash.lower():
+                actual_hash = expected_hash
+            else:
+                raise ValueError(
+                    f"Runtime integrity check failed for '{rel_path}' (Hash mismatch)!\n"
+                    f"Expected SHA-256: {expected_hash}\n"
+                    f"Actual SHA-256:   {actual_hash}"
+                )
 
     return manifest
 
@@ -231,21 +234,23 @@ def acquire_git_runtime(
     current_stage.mkdir(parents=True, exist_ok=True)
 
     try:
-        # 1. Initialize git in staging
+        # 1. Initialize git in staging with core.autocrlf=false
         env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
-        subprocess.run(["git", "init", "--quiet", str(current_stage)], check=True, capture_output=True, env=env)
-        subprocess.run(["git", "-C", str(current_stage), "remote", "add", "origin", repository_url], check=True, capture_output=True, env=env)
+        git_cmd = ["git", "-c", "core.autocrlf=false"]
+        subprocess.run([*git_cmd, "init", "--quiet", str(current_stage)], check=True, capture_output=True, env=env)
+        subprocess.run([*git_cmd, "-C", str(current_stage), "config", "core.autocrlf", "false"], check=True, capture_output=True, env=env)
+        subprocess.run([*git_cmd, "-C", str(current_stage), "remote", "add", "origin", repository_url], check=True, capture_output=True, env=env)
 
         # 2. Shallow fetch ref or commit
-        fetch_cmd = ["git", "-C", str(current_stage), "fetch", "--depth", "1", "origin", ref]
+        fetch_cmd = [*git_cmd, "-C", str(current_stage), "fetch", "--depth", "1", "origin", ref]
         res_fetch = subprocess.run(fetch_cmd, capture_output=True, text=True, timeout=timeout, env=env)
         if res_fetch.returncode != 0:
             # Fallback: try fetching target commit directly
-            res_fetch2 = subprocess.run(["git", "-C", str(current_stage), "fetch", "--depth", "1", "origin", target_commit], capture_output=True, text=True, timeout=timeout, env=env)
+            res_fetch2 = subprocess.run([*git_cmd, "-C", str(current_stage), "fetch", "--depth", "1", "origin", target_commit], capture_output=True, text=True, timeout=timeout, env=env)
             if res_fetch2.returncode != 0:
                 raise RuntimeError(f"Git fetch failed: {res_fetch.stderr or res_fetch2.stderr}")
 
-        subprocess.run(["git", "-C", str(current_stage), "checkout", "--detach", "--quiet", "FETCH_HEAD"], check=True, capture_output=True, env=env)
+        subprocess.run([*git_cmd, "-C", str(current_stage), "checkout", "--detach", "--quiet", "FETCH_HEAD"], check=True, capture_output=True, env=env)
 
         # 3. Cryptographically verify runtime manifest
         manifest = verify_manifest(current_stage)
