@@ -382,7 +382,13 @@ def ensure_server_running(
     env["PYTHONPATH"] = str(src_dir)
     env["PYTHONUTF8"] = "1"
 
-    cmd = [sys.executable, "-m", "story_universe_architect.server", "--port", str(target_port), "--no-browser"]
+    python_exe = sys.executable
+    if os.name == "nt":
+        pythonw = Path(sys.executable).parent / "pythonw.exe"
+        if pythonw.is_file():
+            python_exe = str(pythonw)
+
+    cmd = [python_exe, "-m", "story_universe_architect.server", "--port", str(target_port), "--no-browser"]
     if data_dir:
         cmd.extend(["--data-dir", str(data_dir)])
 
@@ -393,13 +399,25 @@ def ensure_server_running(
         env=env,
     )
     if os.name == "nt":
-        popen_kwargs["creationflags"] = (
-            subprocess.CREATE_NO_WINDOW | getattr(subprocess, "DETACHED_PROCESS", 0x00000008)
+        # Detached process with job breakaway where supported
+        breakaway_flags = (
+            getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0x00000200) |
+            getattr(subprocess, "DETACHED_PROCESS", 0x00000008) |
+            0x01000000  # CREATE_BREAKAWAY_FROM_JOB
         )
+        standard_flags = (
+            getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0x00000200) |
+            getattr(subprocess, "DETACHED_PROCESS", 0x00000008)
+        )
+        try:
+            popen_kwargs["creationflags"] = breakaway_flags
+            proc = subprocess.Popen(cmd, **popen_kwargs)
+        except OSError:
+            popen_kwargs["creationflags"] = standard_flags
+            proc = subprocess.Popen(cmd, **popen_kwargs)
     else:
         popen_kwargs["start_new_session"] = True
-
-    proc = subprocess.Popen(cmd, **popen_kwargs)
+        proc = subprocess.Popen(cmd, **popen_kwargs)
 
     deadline = time.time() + 15.0
     while time.time() < deadline:
