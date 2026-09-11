@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "story_universe_architect_workbench"
+version = "1.1.0"
+description = "Story Universe Architect - Localhost-first narrative workbench and universe compiler."
+readme = "README.md"
+license = { text = "Proprietary / See LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "THRESHOLD team", email = "threshold@story-universe.local" }
+]
+keywords = [
+    "story",
+    "worldbuilding",
+    "screenwriting",
+    "narrative",
+    "character-design",
+    "relationship-graph"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Text Editors :: Word Processors",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = []
+
+[project.scripts]
+sua = "story_universe_architect.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+story_universe_architect = [
+    "web/*",
+    "schemas/*"
+]

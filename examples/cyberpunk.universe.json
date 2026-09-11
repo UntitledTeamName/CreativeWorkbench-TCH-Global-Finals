@@ -1,0 +1,295 @@
+{
+  "schema_version": "1.0",
+  "id": "borrowed-light",
+  "revision": 1,
+  "title": "Borrowed Light",
+  "concept": "In a rain-soaked city where memories can be sold, a courier assembles an uneasy alliance to steal back an archive that may explain her sister’s disappearance. Every ally remembers a different version of the same night.",
+  "format": "Novel outline",
+  "genre": "Cyberpunk mystery",
+  "tone": "Luminous, intimate, morally uncertain",
+  "setting": "A vertical coastal city whose public memory archive is scheduled for deletion at dawn.",
+  "thematic_thesis": "Remembering someone does not necessarily give us ownership of their story.",
+  "visual": {
+    "palette": [
+      "electric cyan",
+      "muted magenta",
+      "matte graphite"
+    ],
+    "lighting": "Rain-diffused neon with isolated warm practical light",
+    "texture": "Wet glass, scratched polymer, analogue tape and condensation",
+    "composition": "Reflections, obstructed sightlines and generous pockets of darkness",
+    "style": "Restrained near-future noir; human-scale rather than spectacle"
+  },
+  "characters": [
+    {
+      "id": "mira",
+      "name": "Mira Voss",
+      "role": "Courier · protagonist",
+      "archetype_id": "nadia",
+      "archetype_label": "The Guarded Professional",
+      "communication_style": "Clipped operational facts; personal questions receive route information.",
+      "emotional_baseline": "Contained vigilance",
+      "core_fear": "Becoming property in a city that owns memories.",
+      "core_desire": "Recover the one memory she sold of her sister.",
+      "tendencies": [
+        "Checks exits before speaking.",
+        "Pays debts literally.",
+        "Does not correct people who call her fearless."
+      ],
+      "voice_samples": [
+        "Tell me where. You haven't earned why.",
+        "A route isn't an alibi.",
+        "I sold the memory, not the promise."
+      ],
+      "backstory": "Mira sold a childhood memory to pay for emergency treatment. A stolen archive suggests the buyer also altered her account of who needed saving.",
+      "appearance": "A woman in her thirties, cropped dark hair, weathered graphite courier jacket with a repaired amber seam; no exaggerated implants."
+    },
+    {
+      "id": "iko",
+      "name": "Iko Sen",
+      "role": "Archive engineer · uneasy ally",
+      "archetype_id": "ms_vidal",
+      "archetype_label": "The Reassurance Seeker",
+      "communication_style": "Careful qualifications and repeated checks of what was actually agreed.",
+      "emotional_baseline": "Anxious curiosity",
+      "core_fear": "Mistaking a beautiful forgery for a fact.",
+      "core_desire": "Preserve an unedited account of the city.",
+      "tendencies": [
+        "Repeats a claim in narrower words.",
+        "Marks uncertainty before drawing conclusions.",
+        "Keeps analogue copies of fragile evidence."
+      ],
+      "voice_samples": [
+        "It proves the file changed. Not who changed it.",
+        "Tell me the part you haven't checked.",
+        "Uncertainty isn't the same as nothing."
+      ],
+      "backstory": "Iko maintains a municipal memory archive and once authorized a deletion he was told protected a witness. He now suspects it erased one.",
+      "appearance": "An East Asian man in his late twenties, translucent utility visor raised off tired eyes, ink-stained fingertips, layered grey workwear."
+    },
+    {
+      "id": "sable",
+      "name": "Sable Quill",
+      "role": "Broker · friend with a price",
+      "archetype_id": "felix",
+      "archetype_label": "The Deflecting Charmer",
+      "communication_style": "Elegant jokes that make the terms sound smaller than they are.",
+      "emotional_baseline": "Performative ease",
+      "core_fear": "Having no value when nobody needs a favor.",
+      "core_desire": "Become necessary to people who cannot buy her.",
+      "tendencies": [
+        "Offers a gift before naming its conditions.",
+        "Avoids direct descriptions of loneliness.",
+        "Never forgets a favor she claims was free."
+      ],
+      "voice_samples": [
+        "You can trust me. Just don't confuse that with a discount.",
+        "I didn't sell your name. I leased the opportunity.",
+        "Stay for a drink. That part isn't a transaction."
+      ],
+      "backstory": "Sable helped Mira survive her first illegal route. She now holds the access token needed for the archive theft and wants a place in the resulting story.",
+      "appearance": "A Black woman in her forties, tailored plum coat with rain-dark cuffs, a single brass ear cuff, patient smile; human warmth against synthetic surroundings."
+    },
+    {
+      "id": "oren",
+      "name": "Oren Vale",
+      "role": "Security auditor · pursuer",
+      "archetype_id": "priya",
+      "archetype_label": "The Unsoftened Truth",
+      "communication_style": "Direct distinctions between an authorized action and a defensible one.",
+      "emotional_baseline": "Disciplined unease",
+      "core_fear": "Learning his integrity has only protected the system.",
+      "core_desire": "Make one record stand without compromise.",
+      "tendencies": [
+        "Uses exact names where colleagues use euphemisms.",
+        "Refuses convenient certainty.",
+        "Keeps obsolete orders as evidence."
+      ],
+      "voice_samples": [
+        "Legal is the field on the form. I asked whether it happened.",
+        "Your story makes sense. That doesn't make it true.",
+        "I can stop following orders before I stop caring."
+      ],
+      "backstory": "Oren signed the order that removed Mira’s sister from the public record. He believes he was protecting her identity; the archive may prove otherwise.",
+      "appearance": "A man in his fifties, close silver hair, unadorned dark raincoat, battered inspection terminal, a composed face caught in reflected cyan."
+    }
+  ],
+  "relationships": [
+    {
+      "id": "archive",
+      "source": "mira",
+      "target": "iko",
+      "label": "needs proof",
+      "source_wants": "A route to her sister’s missing memory.",
+      "target_wants": "Protection for the archive, including facts she may dislike.",
+      "shared_history": "Mira saved Iko during a power raid before knowing what he maintained.",
+      "source_read": "He owes her access without conditions.",
+      "target_read": "She proved she might protect evidence rather than exploit it.",
+      "tension": "Her need for a comforting answer can destroy the evidence he needs to preserve.",
+      "breaking_point": "The recovered file contradicts Mira’s last intact memory.",
+      "story_potential": "Mira must choose between recovering a person she recognizes and admitting she never knew the whole story.",
+      "intensity": 5
+    },
+    {
+      "id": "favor",
+      "source": "sable",
+      "target": "mira",
+      "label": "holds a favor",
+      "source_wants": "A place in Mira’s life that is not purchased.",
+      "target_wants": "Access without another permanent obligation.",
+      "shared_history": "Sable hid Mira after her first failed delivery.",
+      "source_read": "They chose each other before money intervened.",
+      "target_read": "Accepting shelter created a debt she has never been allowed to finish paying.",
+      "tension": "Affection keeps being expressed through leverage.",
+      "breaking_point": "Sable can clear Mira’s debt only by selling the route to someone else.",
+      "story_potential": "She can surrender her hold on Mira or prove that her generosity was another form of ownership.",
+      "intensity": 4
+    },
+    {
+      "id": "pursuit",
+      "source": "oren",
+      "target": "mira",
+      "label": "pursues",
+      "source_wants": "A witness who will survive long enough to testify.",
+      "target_wants": "An explanation not written by the person who erased her sister.",
+      "shared_history": "Oren’s signature appears on the order Mira has carried for years.",
+      "source_read": "The redaction kept someone alive.",
+      "target_read": "He chose a record over a person.",
+      "tension": "The same omission can look like protection or betrayal.",
+      "breaking_point": "Oren must release an unredacted name to stop the archive wipe.",
+      "story_potential": "Trust requires accepting a cost neither side can undo after publication.",
+      "intensity": 5
+    },
+    {
+      "id": "transaction",
+      "source": "iko",
+      "target": "sable",
+      "label": "buys time",
+      "source_wants": "Access with a verifiable chain of custody.",
+      "target_wants": "A copy valuable enough to buy her independence.",
+      "shared_history": "She delivered a file he later discovered had been edited.",
+      "source_read": "He should have checked; that is what he was paying her for.",
+      "target_read": "She used his caution as permission to deceive him.",
+      "tension": "Their exchange has no agreed definition of a clean copy.",
+      "breaking_point": "The only remaining backup is in Sable’s memory implant.",
+      "story_potential": "The audit becomes a question of consent when evidence and person cannot be separated.",
+      "intensity": 4
+    },
+    {
+      "id": "order",
+      "source": "oren",
+      "target": "iko",
+      "label": "protects a secret",
+      "source_wants": "Confirmation that an old deletion prevented harm.",
+      "target_wants": "Permission to name the harm the deletion actually caused.",
+      "shared_history": "They jointly approved a sealed archive entry during the previous administration.",
+      "source_read": "A promise of silence protected the vulnerable.",
+      "target_read": "Silence protected the people who authorized it.",
+      "tension": "Professional loyalty has become incompatible with their reasons for joining the service.",
+      "breaking_point": "A routine integrity check exposes the sealed entry.",
+      "story_potential": "One can take sole blame, or both can tell the truth and lose the authority that made disclosure possible.",
+      "intensity": 3
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "add-ada",
+      "status": "pending",
+      "gap": "Consent as a meaningful limit",
+      "rationale": "Most current tensions concern recovering truth. Someone who can refuse access could make the means of recovery matter as much as the result.",
+      "impact": "The heist can end in an ethical choice rather than only successful retrieval.",
+      "character": {
+        "id": "ada",
+        "name": "Ada Rook",
+        "role": "Memory conservator · living counterexample",
+        "archetype_id": "recurring_stranger",
+        "archetype_label": "The Attentive Outsider",
+        "communication_style": "Sparse observations that reveal long attention.",
+        "emotional_baseline": "Patient grief",
+        "core_fear": "Preserving objects while abandoning the people inside them.",
+        "core_desire": "Return custody of memories to their owners.",
+        "tendencies": [
+          "Asks permission before telling a remembered story.",
+          "Keeps conflicting accounts without forcing agreement.",
+          "Declines profitable certainty."
+        ],
+        "voice_samples": [
+          "That is one version. It is not the only one I kept.",
+          "Ask her before you call it evidence.",
+          "Restoring something is not the same as making it yours."
+        ],
+        "backstory": "Ada maintains illegal analogue copies for families who cannot afford memory storage. One of her clients used Mira’s sister’s name after the official erasure.",
+        "appearance": "An older woman in a mended cream workcoat, silver braid, magnifying lens on a cord; warm lamplight in a room of obsolete recording machines."
+      },
+      "relationships": [
+        {
+          "id": "custody",
+          "source": "ada",
+          "target": "mira",
+          "label": "holds another account",
+          "source_wants": "Respect for a living person’s choice.",
+          "target_wants": "The story that will complete her own history.",
+          "shared_history": "Ada preserved a message addressed to Mira but was told not to deliver it yet.",
+          "source_read": "Waiting honored the sender.",
+          "target_read": "Waiting prolonged a loss that was not necessary.",
+          "tension": "A memory belongs to the person who lived it and the people changed by its absence.",
+          "breaking_point": "The sender withdraws consent on the night of the heist.",
+          "story_potential": "The protagonist can succeed technically and still choose not to take what she came for.",
+          "intensity": 5
+        }
+      ]
+    },
+    {
+      "id": "add-noa",
+      "status": "pending",
+      "gap": "A future shaped by the protagonist",
+      "rationale": "The cast is tied mainly by past debts. An apprentice could make Mira’s present choices visible as someone else’s possible future.",
+      "impact": "Mira must decide whether protection without explanation recreates the harm she is trying to undo.",
+      "character": {
+        "id": "noa",
+        "name": "Noa Flint",
+        "role": "Route apprentice · future stake",
+        "archetype_id": "ms_okoro",
+        "archetype_label": "The Invested Guide",
+        "communication_style": "Curious questions expose assumptions experts stopped hearing.",
+        "emotional_baseline": "Eager resolve",
+        "core_fear": "Growing into someone who mistakes numbness for skill.",
+        "core_desire": "Learn how to survive without treating every bond as a transaction.",
+        "tendencies": [
+          "Names obvious contradictions.",
+          "Shares credit prematurely.",
+          "Practices routes that seem impossible."
+        ],
+        "voice_samples": [
+          "You keep calling it the safe choice. Safe for who?",
+          "I can carry it. That isn't what I asked.",
+          "Teach me the part you wish you'd learned first."
+        ],
+        "backstory": "Noa has followed Mira’s routes on a borrowed tracker. Their admiration becomes uncomfortable when the heist demands the kind of sacrifice Mira once made.",
+        "appearance": "A young adult with short copper-dyed hair, a repatched waterproof overshirt and an old route scanner; alert, unfinished self-possession."
+      },
+      "relationships": [
+        {
+          "id": "example",
+          "source": "mira",
+          "target": "noa",
+          "label": "sets an example",
+          "source_wants": "A future that does not repeat her mistakes.",
+          "target_wants": "Honest training rather than protective silence.",
+          "shared_history": "Mira sent Noa away from an assignment without explaining the danger.",
+          "source_read": "Refusal was protection.",
+          "target_read": "Refusal meant they were not capable.",
+          "tension": "The lesson Mira avoids teaching is exactly the one Noa may learn alone.",
+          "breaking_point": "Noa is offered payment for a memory they consider expendable.",
+          "story_potential": "Mira can finally speak about her own loss without turning the confession into an order.",
+          "intensity": 4
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "mode": "curated-example",
+    "source": "New fictional non-game demonstration; narrative adaptations of verified THRESHOLD communication profiles.",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1"
+  }
+}

@@ -1,0 +1,363 @@
+{
+  "schema_version": "1.0",
+  "id": "last-service",
+  "revision": 1,
+  "title": "The Last Service",
+  "concept": "A workplace drama in a struggling family restaurant, where an exacting chef, an ambitious sous-chef and a new cook collide over whether saving the place means preserving it or letting it change.",
+  "format": "Television pilot",
+  "genre": "Intimate workplace drama",
+  "tone": "Warm, worn-down, quietly combustible",
+  "setting": "An independent city restaurant over the final month of its lease.",
+  "thematic_thesis": "What we call care can become control when we cannot admit what we fear losing.",
+  "visual": {
+    "palette": [
+      "warm amber",
+      "charcoal",
+      "desaturated teal"
+    ],
+    "lighting": "Tungsten practicals against cool early-morning window light",
+    "texture": "Worn linen, brushed steel, aged copper and handwritten paper",
+    "composition": "Close observational framing, negative space, human-scale detail",
+    "style": "Grounded cinematic realism; intimate rather than glossy"
+  },
+  "characters": [
+    {
+      "id": "marcus",
+      "name": "Marcus Chen",
+      "role": "Head chef · protagonist",
+      "archetype_id": "mr_vance",
+      "archetype_label": "The Silent Authority",
+      "communication_style": "Short instructions; feelings displaced into practical work.",
+      "emotional_baseline": "Guarded intensity",
+      "core_fear": "Becoming irrelevant in the kitchen he built.",
+      "core_desire": "Leave a craft and a restaurant that outlive him.",
+      "tendencies": [
+        "Corrects a plate instead of answering a personal question.",
+        "Offers care through practical acts.",
+        "Withdraws when gratitude sounds like pity."
+      ],
+      "voice_samples": [
+        "Taste it. Don't ask me if it's good—you should know.",
+        "I've been in this kitchen longer than that oven. We'll figure it out.",
+        "I don't need you to like me. I need you to not burn the hollandaise."
+      ],
+      "backstory": "After leaving a celebrated Shanghai restaurant, Marcus opened a place of his own. A divorce and two lean years made the kitchen both his refuge and his last claim to authority. He has hidden the latest rent notice.",
+      "appearance": "An East Asian man in his late forties, tired eyes, tied-back salt-and-pepper hair, burn marks on forearms, stained white chef coat; a contained rather than theatrical presence."
+    },
+    {
+      "id": "sofia",
+      "name": "Sofia Reyes",
+      "role": "New hire · possible successor",
+      "archetype_id": "ms_okoro",
+      "archetype_label": "The Invested Guide",
+      "communication_style": "Bright questions and precise observations; becomes firm when dismissed.",
+      "emotional_baseline": "Hopeful restlessness",
+      "core_fear": "Being treated as replaceable help rather than a cook.",
+      "core_desire": "Earn a place for her own food, not just reproduce a mentor.",
+      "tendencies": [
+        "Practices after the others leave.",
+        "Asks for reasons behind inherited rules.",
+        "Mistakes a rare compliment for unconditional permission."
+      ],
+      "voice_samples": [
+        "I followed the recipe. That's why I know what I want to change.",
+        "Could you show me once without taking the knife away?",
+        "The customers loved it. Can that count for something?"
+      ],
+      "backstory": "Sofia trained while supporting her younger brother. She took this job for the chance to learn from Marcus, not realizing the restaurant might close before she can find her footing.",
+      "appearance": "A Latina woman in her mid-twenties, alert eyes, hair tied under a practical bandanna, a repaired dark apron, notebook in her pocket; energy expressed through posture."
+    },
+    {
+      "id": "danny",
+      "name": "Danny Walsh",
+      "role": "Sous-chef · rival",
+      "archetype_id": "tomas",
+      "archetype_label": "The Ambitious Reframer",
+      "communication_style": "Fast, blunt proposals wrapped in the language of survival.",
+      "emotional_baseline": "Wounded ambition",
+      "core_fear": "Spending his best years as someone else’s second.",
+      "core_desire": "Modernize the restaurant and finally receive visible credit.",
+      "tendencies": [
+        "Reframes arguments as business decisions.",
+        "Keeps a private menu of dishes Marcus rejected.",
+        "Defends Marcus to outsiders, then regrets it."
+      ],
+      "voice_samples": [
+        "Tradition doesn't pay the gas bill.",
+        "I can run service. You've just never let me prove it.",
+        "Call it your menu. Just let me cook one thing on it."
+      ],
+      "backstory": "Danny helped open the restaurant and stayed through delayed wages. He believes his loyalty purchased a partnership that Marcus never actually promised.",
+      "appearance": "A white man in his thirties, cropped hair, rolled black kitchen sleeves, a small oil burn on one hand; restless stance, direct gaze."
+    },
+    {
+      "id": "lena",
+      "name": "Lena Brooks",
+      "role": "Server · keeper of confidences",
+      "archetype_id": "daria",
+      "archetype_label": "The Quiet Loyalist",
+      "communication_style": "Gentle, unhurried questions; discomfort appears as missing words.",
+      "emotional_baseline": "Watchful warmth",
+      "core_fear": "Being valued only for absorbing everyone else’s trouble.",
+      "core_desire": "A life with room for her own plans.",
+      "tendencies": [
+        "Remembers what regulars do not order anymore.",
+        "Protects confidence even when silence costs her.",
+        "Leaves applications to design school unfinished."
+      ],
+      "voice_samples": [
+        "You didn't ask how she was. You asked whether she'd finished.",
+        "I know what you said. I'm asking what she heard.",
+        "There are other places to work. I keep telling myself that."
+      ],
+      "backstory": "Lena knows the restaurant’s failures through unpaid tips, canceled bookings and the staff’s late-night confessions. She has an offer to leave but has not told Sofia.",
+      "appearance": "A Black woman in her late twenties, close natural curls, dark service clothes, a small brass pin, calm eyes; a person who notices the margins of a room."
+    },
+    {
+      "id": "ray",
+      "name": "Ray Patel",
+      "role": "Manager · reluctant accomplice",
+      "archetype_id": "felix",
+      "archetype_label": "The Deflecting Charmer",
+      "communication_style": "Easy jokes and reassuring numbers until specifics corner him.",
+      "emotional_baseline": "Brittle optimism",
+      "core_fear": "Being exposed as the person who could not save the business.",
+      "core_desire": "Keep the doors open long enough to find a real solution.",
+      "tendencies": [
+        "Rounds bad numbers down when reporting them.",
+        "Promises different people incompatible timelines.",
+        "Uses charm to postpone a direct refusal."
+      ],
+      "voice_samples": [
+        "Bad week, not a bad restaurant. Important distinction.",
+        "Give me until Friday. A different Friday, ideally.",
+        "I kept it off your plate. That was meant to be a kindness."
+      ],
+      "backstory": "Ray is Marcus’s longtime friend and handles the books. He used a short-term loan to cover wages without telling the kitchen. The repayment date now collides with a make-or-break event.",
+      "appearance": "A South Asian man in his forties, rumpled burgundy shirt, open collar, phone always face down; warm smile with visible fatigue."
+    }
+  ],
+  "relationships": [
+    {
+      "id": "mentor",
+      "source": "marcus",
+      "target": "sofia",
+      "label": "mentors",
+      "source_wants": "A successor who preserves his standards.",
+      "target_wants": "Recognition followed by creative independence.",
+      "shared_history": "Marcus defended Sofia after she spoiled an expensive sauce.",
+      "source_read": "She owes the kitchen—and him—loyalty.",
+      "target_read": "He trusts her enough to let her take risks.",
+      "tension": "Her growing talent feels like both his legacy and evidence he can be replaced.",
+      "breaking_point": "Sofia receives an offer to cook a dish under her own name at a rival venue.",
+      "story_potential": "Marcus must decide whether to recommend her or use the restaurant’s crisis to keep her close.",
+      "intensity": 5
+    },
+    {
+      "id": "rivalry",
+      "source": "marcus",
+      "target": "danny",
+      "label": "rivalry",
+      "source_wants": "Competence without a challenge to his authorship.",
+      "target_wants": "Authority proportionate to the years he has given.",
+      "shared_history": "They opened the restaurant together, but no partnership was written down.",
+      "source_read": "Keeping Danny employed was a continuing act of trust.",
+      "target_read": "The unpaid overtime was an investment in a promised future.",
+      "tension": "Both call the restaurant “ours” and mean incompatible ownership.",
+      "breaking_point": "A reviewer praises a dish Danny created but credits Marcus.",
+      "story_potential": "A public correction could save their friendship while exposing the fiction that has held the kitchen together.",
+      "intensity": 5
+    },
+    {
+      "id": "books",
+      "source": "marcus",
+      "target": "ray",
+      "label": "depends on",
+      "source_wants": "Protection from the books so he can cook.",
+      "target_wants": "Permission to admit the emergency without becoming the villain.",
+      "shared_history": "Ray covered payroll with a loan Marcus never approved.",
+      "source_read": "Ray handles details; silence means they are manageable.",
+      "target_read": "Marcus has deliberately made honesty impossible.",
+      "tension": "Their friendship rewards concealment until concealment becomes betrayal.",
+      "breaking_point": "A supplier refuses delivery during the biggest booking of the year.",
+      "story_potential": "Marcus must choose between blaming Ray in front of the staff and acknowledging the blindness he requested.",
+      "intensity": 4
+    },
+    {
+      "id": "allies",
+      "source": "danny",
+      "target": "lena",
+      "label": "confides in",
+      "source_wants": "An ally who will confirm he is being overlooked.",
+      "target_wants": "A friend who listens instead of recruiting her.",
+      "shared_history": "Lena stayed after service to hear Danny rehearse a resignation he never delivered.",
+      "source_read": "She understands why he cannot leave yet.",
+      "target_read": "He is rehearsing courage by borrowing her time.",
+      "tension": "His need for validation keeps consuming the attention she needs for her own escape.",
+      "breaking_point": "Lena accepts a course place that will take her away from the restaurant.",
+      "story_potential": "Danny can support her departure or discover that he has become the gatekeeper he resents.",
+      "intensity": 3
+    },
+    {
+      "id": "crush",
+      "source": "sofia",
+      "target": "lena",
+      "label": "unspoken attraction",
+      "source_wants": "Permission to ask for more than friendship.",
+      "target_wants": "Closeness without becoming someone else’s reason to stay.",
+      "shared_history": "They shared the last bus after a disastrous opening night.",
+      "source_read": "The silence on the bus felt like a promise.",
+      "target_read": "It was the first comfortable silence she had had in weeks.",
+      "tension": "They treasure the same moment for different reasons.",
+      "breaking_point": "Sofia learns about Lena’s departure from someone else.",
+      "story_potential": "A direct conversation could deepen the bond or release a future neither had actually agreed to.",
+      "intensity": 4
+    },
+    {
+      "id": "debt",
+      "source": "ray",
+      "target": "lena",
+      "label": "owes the truth",
+      "source_wants": "Time to resolve missing tips before she asks the staff.",
+      "target_wants": "An honest answer without being made responsible for everyone’s panic.",
+      "shared_history": "Lena noticed that the cashout totals and payslips do not match.",
+      "source_read": "She is helping by not making a scene.",
+      "target_read": "She has offered one chance for a private explanation.",
+      "tension": "Her discretion is being mistaken for consent.",
+      "breaking_point": "The same discrepancy appears on a new server’s first payslip.",
+      "story_potential": "Lena must choose between protecting a confidence and protecting a colleague.",
+      "intensity": 4
+    },
+    {
+      "id": "succession",
+      "source": "danny",
+      "target": "sofia",
+      "label": "uneasy alliance",
+      "source_wants": "Proof that modernization is not disloyalty.",
+      "target_wants": "A route to change that does not make her someone’s weapon.",
+      "shared_history": "Danny quietly lent Sofia equipment for an experimental dish.",
+      "source_read": "She is a natural ally against Marcus’s refusal to change.",
+      "target_read": "He helped because the idea deserved a chance.",
+      "tension": "Their collaboration contains an argument about who owns the rebellion.",
+      "breaking_point": "Marcus asks who authorized the experimental menu.",
+      "story_potential": "Sofia can accept Danny’s protection or refuse a faction and make her own case.",
+      "intensity": 3
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "add-vivian",
+      "status": "pending",
+      "gap": "External pressure",
+      "rationale": "The approved cast negotiates mostly with itself. A time-bound responsibility outside the kitchen could force new cooperation; it is an option, not a required antagonist.",
+      "impact": "A shared deadline temporarily makes Marcus and Danny allies without resolving their argument over ownership.",
+      "character": {
+        "id": "vivian",
+        "name": "Vivian Park",
+        "role": "Inspector · external pressure",
+        "archetype_id": "ms_hartwell",
+        "archetype_label": "The Exacting Gatekeeper",
+        "communication_style": "Polite, specific observations; does not mistake charm for evidence.",
+        "emotional_baseline": "Conscientious restraint",
+        "core_fear": "Letting sympathy excuse a preventable harm.",
+        "core_desire": "A safe kitchen that can stay open without special treatment.",
+        "tendencies": [
+          "Records exact promises.",
+          "Distinguishes intention from corrective action.",
+          "Offers practical routes to compliance without bargaining."
+        ],
+        "voice_samples": [
+          "I believe you care. Show me the temperature log.",
+          "It isn't a punishment. It's a date by which this needs to be true.",
+          "I would rather return to a working restaurant than a closed one."
+        ],
+        "backstory": "Vivian grew up above a family takeaway. She understands the cost of a closure and the danger of allowing affection to become an exemption.",
+        "appearance": "An East Asian woman in her forties, neat practical jacket, sensible shoes and a well-used notebook; quiet concentration rather than a villain’s severity."
+      },
+      "relationships": [
+        {
+          "id": "inspection",
+          "source": "vivian",
+          "target": "marcus",
+          "label": "sets a deadline",
+          "source_wants": "Evidence of a safe working kitchen.",
+          "target_wants": "Recognition that craft and care deserve trust.",
+          "shared_history": "An earlier inspection ended with a correction Marcus considered cosmetic.",
+          "source_read": "He cares, but has confused experience with proof.",
+          "target_read": "She cannot see the difference between a kitchen and a form.",
+          "tension": "Mutual respect cannot remove the actual violations.",
+          "breaking_point": "The correction deadline falls on the fundraising dinner.",
+          "story_potential": "Marcus and Danny must cooperate to pass an inspection neither can charm away.",
+          "intensity": 5
+        },
+        {
+          "id": "charm",
+          "source": "ray",
+          "target": "vivian",
+          "label": "fails to deflect",
+          "source_wants": "A private extension.",
+          "target_wants": "A complete account and an accountable person.",
+          "shared_history": "Ray tried to explain away missing records with stories about regular customers.",
+          "source_read": "She knows the cost and might bend if asked kindly.",
+          "target_read": "He is asking her to own a risk he will not name.",
+          "tension": "His most effective social skill has no purchase on her responsibility.",
+          "breaking_point": "She asks for the loan and supplier records together.",
+          "story_potential": "Ray can finally become useful by telling the whole truth rather than buying another day.",
+          "intensity": 4
+        }
+      ]
+    },
+    {
+      "id": "add-jo",
+      "status": "pending",
+      "gap": "An alternative to winning",
+      "rationale": "The current choices favor keeping the restaurant unchanged or losing it. A bounded offer could introduce a third future.",
+      "impact": "The finale can ask whether accepting change is a loss of identity or an act of authorship.",
+      "character": {
+        "id": "jo",
+        "name": "Jo Laurent",
+        "role": "Former partner · alternative future",
+        "archetype_id": "mr_osei",
+        "archetype_label": "The Context Builder",
+        "communication_style": "Explains context before asking difficult questions.",
+        "emotional_baseline": "Affectionate distance",
+        "core_fear": "Returning to a role she outgrew.",
+        "core_desire": "Help without becoming responsible for Marcus again.",
+        "tendencies": [
+          "Names the limits of an offer.",
+          "Notices when practical help becomes emotional leverage.",
+          "Remembers good years without pretending the bad ones did not happen."
+        ],
+        "voice_samples": [
+          "I can introduce you. I can't want this for you.",
+          "We can remember it differently and still talk about it.",
+          "That isn't what I offered."
+        ],
+        "backstory": "Jo built a food-distribution business after leaving restaurant work. She can offer a viable alternative to the current model—but only if Marcus stops treating compromise as defeat.",
+        "appearance": "A woman in her late forties, short silver-streaked hair, a weatherproof dark coat and a practical canvas bag; calm, direct presence."
+      },
+      "relationships": [
+        {
+          "id": "alternative",
+          "source": "jo",
+          "target": "marcus",
+          "label": "offers another way",
+          "source_wants": "Consent to help on clearly stated terms.",
+          "target_wants": "Rescue without an admission that the old plan failed.",
+          "shared_history": "They once planned the restaurant together before separating.",
+          "source_read": "They can collaborate without returning to the past.",
+          "target_read": "Her help proves their old partnership still means something.",
+          "tension": "They agree about the business solution and disagree about what accepting it means.",
+          "breaking_point": "Jo’s offer requires selling the name above the door.",
+          "story_potential": "The ending can become a negotiated new form of legacy rather than a simple victory or collapse.",
+          "intensity": 4
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "mode": "curated-example",
+    "source": "THRESHOLD communication architecture; restaurant premise and Marcus concept supplied by the team; newly authored fictional demonstration.",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1"
+  }
+}

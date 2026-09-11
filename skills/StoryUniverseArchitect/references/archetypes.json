@@ -1,0 +1,178 @@
+[
+  {
+    "id": "prof_adler",
+    "label": "The Exacting Mentor",
+    "source_role": "teacher",
+    "communication": "Precise questions; impatience with unexplained pauses.",
+    "blind_spot": "Confuses a slow response with weak preparation.",
+    "source_metrics": "respect / confidence",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "ms_okoro",
+    "label": "The Invested Guide",
+    "source_role": "teacher",
+    "communication": "Warm questions that sometimes steer toward a preferred answer.",
+    "blind_spot": "Support can become an expectation of agreement.",
+    "source_metrics": "trust / integrity",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "mr_vance",
+    "label": "The Silent Authority",
+    "source_role": "teacher",
+    "communication": "Few words; asks for observable results before explanations.",
+    "blind_spot": "Mistakes personal context for an excuse.",
+    "source_metrics": "credibility / reliability",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "daria",
+    "label": "The Quiet Loyalist",
+    "source_role": "friend",
+    "communication": "Patient conversation followed by silence when hurt.",
+    "blind_spot": "Reads distance as rejection without checking.",
+    "source_metrics": "trust / closeness",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "felix",
+    "label": "The Deflecting Charmer",
+    "source_role": "friend",
+    "communication": "Quick jokes and social fluency fill uncomfortable silence.",
+    "blind_spot": "Humor can conceal a serious need.",
+    "source_metrics": "trust / openness",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "priya",
+    "label": "The Unsoftened Truth",
+    "source_role": "friend",
+    "communication": "Direct statements, little verbal cushioning.",
+    "blind_spot": "Honesty can arrive at the wrong moment.",
+    "source_metrics": "trust / candor",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "nadia",
+    "label": "The Guarded Professional",
+    "source_role": "colleague",
+    "communication": "Formal, testing exchanges until competence feels established.",
+    "blind_spot": "Self-sufficiency makes asking for help difficult.",
+    "source_metrics": "trust / ease",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "tomas",
+    "label": "The Ambitious Reframer",
+    "source_role": "colleague",
+    "communication": "Confident, fast reframing toward a desired result.",
+    "blind_spot": "Assumes everyone has a hidden advantage to seek.",
+    "source_metrics": "respect / alignment",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "seren",
+    "label": "The Quiet Mediator",
+    "source_role": "colleague",
+    "communication": "Considered answers keep apparent calm.",
+    "blind_spot": "Others miss frustration that has been accumulating.",
+    "source_metrics": "trust / rapport",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "ms_hartwell",
+    "label": "The Exacting Gatekeeper",
+    "source_role": "client",
+    "communication": "Brief expectations followed by close attention to delivery.",
+    "blind_spot": "Offers fewer second chances than she realizes.",
+    "source_metrics": "trust / satisfaction",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "mr_osei",
+    "label": "The Context Builder",
+    "source_role": "client",
+    "communication": "Explains reasons and expects reciprocal context.",
+    "blind_spot": "Professional distance can feel like indifference.",
+    "source_metrics": "trust / engagement",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "ms_vidal",
+    "label": "The Reassurance Seeker",
+    "source_role": "client",
+    "communication": "Polite follow-up questions circle an unresolved concern.",
+    "blind_spot": "Anticipated bad news colors an otherwise clear answer.",
+    "source_metrics": "trust / reassurance",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "parent",
+    "label": "The Protective Historian",
+    "source_role": "family",
+    "communication": "Affectionate questions carry old assumptions.",
+    "blind_spot": "Care is based on an outdated picture of the other person.",
+    "source_metrics": "trust / closeness",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "sibling",
+    "label": "The Sideways Witness",
+    "source_role": "family",
+    "communication": "Dry indirect observations rely on shared history.",
+    "blind_spot": "A familiar interpretation can survive new evidence.",
+    "source_metrics": "trust / closeness",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "barista",
+    "label": "The Selective Familiar",
+    "source_role": "stranger",
+    "communication": "Efficient exchanges grow warmer through repeated contact.",
+    "blind_spot": "Early impressions decide who receives extra care.",
+    "source_metrics": "impression / trust",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  },
+  {
+    "id": "recurring_stranger",
+    "label": "The Attentive Outsider",
+    "source_role": "stranger",
+    "communication": "Sparse remarks reveal a long history of noticing.",
+    "blind_spot": "Assumes observation has been mutual.",
+    "source_metrics": "impression / trust",
+    "source_file": "content/npc_templates.yaml",
+    "source_commit": "0834fc71f9b809c856abc96b3d15434cf53a76d1",
+    "adaptation": "Narrative communication lens; not a diagnosis or fixed personality type."
+  }
+]

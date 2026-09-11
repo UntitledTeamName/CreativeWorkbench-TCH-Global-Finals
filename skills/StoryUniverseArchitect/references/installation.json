@@ -1,0 +1,11 @@
+{
+  "name": "story_universe_architect_workbench",
+  "version": "1.1.0",
+  "artifact": "story_universe_architect_workbench-1.1.0-py3-none-any.whl",
+  "repository": "https://github.com/story-universe-architect/story-universe-architect",
+  "release_tag": "v1.1.0",
+  "min_python": "3.10",
+  "schema_version": "1.0",
+  "protocol_version": "1.0",
+  "sha256": "5bd00ca8bd3df85c2b51aa8c3b35be5d45bc90725296b5e33abb70bc4cb4bb28"
+}

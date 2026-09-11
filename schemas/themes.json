@@ -1,0 +1,30 @@
+[
+  {
+    "id": "communication-not-character",
+    "title": "How someone speaks is not all they are",
+    "principle": "Use communication tendencies as a lens. Desire, fear, context and personal history must create variation.",
+    "source": "content/npc_templates.yaml: communication_style + base_personality",
+    "extension": "Give every fictional character multiple voice samples, a desire and a contradiction."
+  },
+  {
+    "id": "memory-is-interpretation",
+    "title": "One event, two interpretations",
+    "principle": "A remembered encounter can change trust without being understood the same way by both people.",
+    "source": "content/npc_templates.yaml: relationship metrics, metric_updates and state_rules; dynamic memory described by team",
+    "extension": "Record a shared event and a separate interpretation at each end of an edge. No runtime memory simulator is copied."
+  },
+  {
+    "id": "seeds-have-direction",
+    "title": "A scene begins with a want",
+    "principle": "A seed should contain a situation, stakes and a character goal, not an arbitrary line of dialogue.",
+    "source": "content/scenario_seeds.yaml: context.premise, stakes, npc_goal and possible_outcomes",
+    "extension": "Each story hook references an approved edge and its breaking point."
+  },
+  {
+    "id": "relationship-pressure",
+    "title": "Connection contains possible change",
+    "principle": "An alliance can hold an incompatible need; tension is not limited to hostility.",
+    "source": "content/npc_templates.yaml: paired metrics and changing states",
+    "extension": "Every edge records what each person wants, what keeps them together and what could break the pattern."
+  }
+]

@@ -1,0 +1,559 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:story-universe-architect:1.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "concept": {
+      "type": "string",
+      "minLength": 15,
+      "maxLength": 8000
+    },
+    "format": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "genre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "tone": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "setting": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 6000
+    },
+    "thematic_thesis": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 6000
+    },
+    "visual": {
+      "type": "object",
+      "properties": {
+        "palette": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "minItems": 2,
+          "maxItems": 6
+        },
+        "lighting": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6000
+        },
+        "texture": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6000
+        },
+        "composition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6000
+        },
+        "style": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6000
+        }
+      },
+      "required": [
+        "palette",
+        "lighting",
+        "texture",
+        "composition",
+        "style"
+      ],
+      "additionalProperties": false
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "archetype_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "archetype_label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "communication_style": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "emotional_baseline": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "core_fear": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "core_desire": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "tendencies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 6000
+            },
+            "minItems": 2,
+            "maxItems": 6
+          },
+          "voice_samples": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 6000
+            },
+            "minItems": 3,
+            "maxItems": 5
+          },
+          "backstory": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "appearance": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "role",
+          "archetype_id",
+          "archetype_label",
+          "communication_style",
+          "emotional_baseline",
+          "core_fear",
+          "core_desire",
+          "tendencies",
+          "voice_samples",
+          "backstory",
+          "appearance"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 10
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "source": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "source_wants": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "target_wants": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "shared_history": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "source_read": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "target_read": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "tension": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "breaking_point": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "story_potential": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "intensity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "target",
+          "label",
+          "source_wants",
+          "target_wants",
+          "shared_history",
+          "source_read",
+          "target_read",
+          "tension",
+          "breaking_point",
+          "story_potential",
+          "intensity"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 35
+    },
+    "suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ]
+          },
+          "gap": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "character": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "archetype_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+              },
+              "archetype_label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "communication_style": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6000
+              },
+              "emotional_baseline": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6000
+              },
+              "core_fear": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6000
+              },
+              "core_desire": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6000
+              },
+              "tendencies": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "minItems": 2,
+                "maxItems": 6
+              },
+              "voice_samples": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "minItems": 3,
+                "maxItems": 5
+              },
+              "backstory": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6000
+              },
+              "appearance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 6000
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "role",
+              "archetype_id",
+              "archetype_label",
+              "communication_style",
+              "emotional_baseline",
+              "core_fear",
+              "core_desire",
+              "tendencies",
+              "voice_samples",
+              "backstory",
+              "appearance"
+            ],
+            "additionalProperties": false
+          },
+          "relationships": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+                },
+                "source": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+                },
+                "target": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "source_wants": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "target_wants": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "shared_history": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "source_read": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "target_read": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "tension": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "breaking_point": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "story_potential": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "intensity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                }
+              },
+              "required": [
+                "id",
+                "source",
+                "target",
+                "label",
+                "source_wants",
+                "target_wants",
+                "shared_history",
+                "source_read",
+                "target_read",
+                "tension",
+                "breaking_point",
+                "story_potential",
+                "intensity"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 4
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "gap",
+          "rationale",
+          "impact",
+          "character",
+          "relationships"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 3
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "curated-example",
+            "workbuddy",
+            "live-model",
+            "imported"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 6000
+        },
+        "source_commit": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "mode",
+        "source",
+        "source_commit"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "id",
+    "revision",
+    "title",
+    "concept",
+    "format",
+    "genre",
+    "tone",
+    "setting",
+    "thematic_thesis",
+    "visual",
+    "characters",
+    "relationships",
+    "suggestions",
+    "provenance"
+  ],
+  "additionalProperties": false
+}
