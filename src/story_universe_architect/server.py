@@ -146,7 +146,8 @@ class SUAServerHandler(BaseHTTPRequestHandler):
                     boot = json.loads(match.group(1))
                     boot["initial"] = universe
                     boot["portable"] = False
-                    new_tag = f'<script type="application/json" id="boot-data">{json.dumps(boot, ensure_ascii=False).replace("<", "\\u003c")}</script>'
+                    boot_json = json.dumps(boot, ensure_ascii=False).replace("<", "\\u003c")
+                    new_tag = f'<script type="application/json" id="boot-data">{boot_json}</script>'
                     html = html[:match.start()] + new_tag + html[match.end():]
                 except Exception:
                     pass

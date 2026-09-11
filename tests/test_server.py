@@ -177,21 +177,32 @@ class ServerIntegrationTests(unittest.TestCase):
         self.assertEqual(headers.get("X-Frame-Options"), "DENY")
         self.assertEqual(headers.get("X-Content-Type-Options"), "nosniff")
 
-    def test_08_security_rejects_untrusted_origin(self):
+    def test_08_workspace_html_boot_data_is_escaped(self):
+        custom = dict(self.restaurant)
+        custom["title"] = "Unsafe <Title>"
+        self.store.save_workspace("test-unsafe", custom)
+
+        status, headers, raw = self.fetch("/?workspace=test-unsafe")
+        self.assertEqual(status, 200)
+        content = raw.decode("utf-8")
+        self.assertIn("Unsafe \\u003cTitle>", content)
+        self.assertNotIn("Unsafe <Title>", content)
+
+    def test_09_security_rejects_untrusted_origin(self):
         status, headers, raw = self.fetch(
             "/api/status",
             headers={"Origin": "https://attacker.example.com"}
         )
         self.assertEqual(status, 403)
 
-    def test_09_security_rejects_untrusted_host(self):
+    def test_10_security_rejects_untrusted_host(self):
         status, headers, raw = self.fetch(
             "/api/status",
             headers={"Host": "attacker.example.com"}
         )
         self.assertEqual(status, 403)
 
-    def test_10_security_rejects_path_traversal(self):
+    def test_11_security_rejects_path_traversal(self):
         traversals = ["/.env", "/../../etc/passwd", "/..%2f.env", "/secrets.json"]
         for path in traversals:
             status, headers, raw = self.fetch(path)
