@@ -1,4 +1,4 @@
-# Story Universe Architect — Data Contract & Protocol Specification
+# CharacterOS — Data Contract & Protocol Specification
 
 ## REST API Specification
 
@@ -12,7 +12,7 @@
     "port": 8765,
     "pid": 24104,
     "workspaces_count": 2,
-    "data_dir": "/path/to/.story-universe-architect/workspaces"
+    "data_dir": "/path/to/.characteros/workspaces"
   }
   ```
 

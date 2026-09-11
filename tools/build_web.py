@@ -1,4 +1,4 @@
-"""Build the standalone single-file index.html for Story Universe Architect."""
+"""Build the standalone single-file index.html for CharacterOS."""
 from __future__ import annotations
 
 import json

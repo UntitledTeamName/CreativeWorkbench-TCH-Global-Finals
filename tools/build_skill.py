@@ -1,4 +1,4 @@
-"""Package the WorkBuddy Skill into dist/StoryUniverseArchitect.zip."""
+"""Package the WorkBuddy Skill into dist/CharacterOS.zip."""
 from __future__ import annotations
 
 import os
@@ -6,7 +6,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL_SRC = ROOT / "skills" / "StoryUniverseArchitect"
+SKILL_SRC = ROOT / "skills" / "CharacterOS"
 DIST = ROOT / "dist"
 
 EXCLUDED_NAMES = {"__pycache__", ".DS_Store", "Thumbs.db"}
@@ -14,7 +14,7 @@ EXCLUDED_EXTS = {".pyc", ".pyo"}
 
 
 def build_skill_zip(output_path: Optional[Path] = None) -> Path:
-    dest = (output_path or DIST / "StoryUniverseArchitect.zip").resolve()
+    dest = (output_path or DIST / "CharacterOS.zip").resolve()
     dest.parent.mkdir(parents=True, exist_ok=True)
 
     if not (SKILL_SRC / "SKILL.md").is_file():

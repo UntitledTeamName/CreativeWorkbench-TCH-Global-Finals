@@ -1,6 +1,6 @@
-# Story Universe Architect
+# CharacterOS
 
-**Story Universe Architect (SUA)** is an offline-first, localhost-first creative writing workbench and narrative compiler. It transforms a single premise into a fully connected, structurally sound story universe with cast profiles, asymmetric relationship maps, narrative gap additions, a 4-category visual prompt kit, and directional story seeds.
+**CharacterOS** is an offline-first, localhost-first creative writing workbench and narrative compiler. Part of [CharacterOS: Creative Workbench for Workbuddy](https://github.com/UntitledTeamName/CharacterOS). It transforms a single premise into a fully connected, structurally sound story universe with cast profiles, asymmetric relationship maps, narrative gap additions, a 4-category visual prompt kit, and directional story seeds.
 
 ---
 
@@ -9,12 +9,12 @@
 ```text
 USER (Writer)
   │
-  │ /sua
+  │ /characteros or /sua
   ▼
 WORKBUDDY (Conversational & Creative Agent)
   │
   ▼
-StoryUniverseArchitect Skill
+CharacterOS Skill
   │  ├── Detects / acquires runtime (Modes 1, 2, 3)
   │  ├── Starts / reuses local server
   │  ├── Collects requirements conversationally
@@ -23,9 +23,9 @@ StoryUniverseArchitect Skill
   │
   │ HTTP (JSON) on 127.0.0.1:8765
   ▼
-LOCAL SUA RUNTIME SERVER
+LOCAL CHARACTEROS RUNTIME SERVER
   │  ├── Schema validation & deterministic compilers
-  │  ├── Workspace persistence (~/.story-universe-architect/)
+  │  ├── Workspace persistence (~/.characteros/)
   │  └── Bundled production web assets
   │
   ▼
@@ -34,7 +34,7 @@ BROWSER WORKBENCH (http://127.0.0.1:8765/?workspace=<id>)
 
 - **WorkBuddy is the sole agent and creative orchestrator.**
 - **The Skill is the integration contract.**
-- **SUA is the deterministic workbench and persistent store.**
+- **CharacterOS is the deterministic workbench and persistent store.**
 - **No separate Expert team architecture.**
 - **No SaaS or cloud dependency.**
 
@@ -43,9 +43,9 @@ BROWSER WORKBENCH (http://127.0.0.1:8765/?workspace=<id>)
 ## Quick Start
 
 ### 1. In WorkBuddy
-Install `StoryUniverseArchitect.zip` into your WorkBuddy skills directory and type:
+Install `CharacterOS.zip` into your WorkBuddy skills directory and type:
 ```text
-/sua A dark psychological-thriller screenplay about five researchers trapped in an Antarctic station.
+/characteros A dark psychological-thriller screenplay about five researchers trapped in an Antarctic station.
 ```
 WorkBuddy will generate the entire universe in a single pass, validate it, save it, and provide a direct link to your local browser workbench.
 
@@ -56,7 +56,7 @@ pip install dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl
 ```
 Start the local server:
 ```bash
-sua start
+characteros start
 ```
 Open `http://127.0.0.1:8765` in your browser.
 
@@ -68,8 +68,8 @@ The authoritative release process produces exactly two distribution packages und
 
 ```text
 dist/
-├── StoryUniverseArchitect.zip                                      # WorkBuddy Skill
-└── story_universe_architect_workbench-1.1.0-py3-none-any.whl       # Local SUA Runtime + Web App
+├── CharacterOS.zip                                                 # WorkBuddy Skill
+└── story_universe_architect_workbench-1.1.0-py3-none-any.whl       # Local CharacterOS Runtime + Web App
 ```
 
 Run the one-command release packager and test suite:

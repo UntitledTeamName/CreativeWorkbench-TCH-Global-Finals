@@ -1,6 +1,6 @@
-# Story Universe Architect — Receiver Self-Check
+# CharacterOS — Receiver Self-Check
 
-Before submitting candidate story universe data to the local SUA workbench, verify every check:
+Before submitting candidate story universe data to the local CharacterOS workbench, verify every check:
 
 ## 1. Top-Level Universe Check
 - [ ] `schema_version` is `"1.0"`.

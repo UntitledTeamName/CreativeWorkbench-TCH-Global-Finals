@@ -1,4 +1,4 @@
-# Story Universe Architect — Developer Setup
+# CharacterOS — Developer Setup
 
 ## Requirements
 - Python 3.10+ (standard library only; zero external runtime dependencies)
@@ -7,7 +7,10 @@
 
 ## Local Development
 
-1. Clone the repository.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/UntitledTeamName/CharacterOS.git
+   ```
 2. Run tests:
    ```bash
    python -m unittest discover -s tests -p "test_*.py"
@@ -22,10 +25,10 @@
 ## Installing the Wheel Manually
 ```bash
 pip install dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl
-sua --help
-sua start
+characteros --help
+characteros start
 ```
 
 ## Installing the WorkBuddy Skill
-Extract or install `dist/StoryUniverseArchitect.zip` into your WorkBuddy skills directory.
-Then invoke `/sua` in chat!
+Extract or install `dist/CharacterOS.zip` into your WorkBuddy skills directory.
+Then invoke `/characteros` (or `/sua`) in chat!

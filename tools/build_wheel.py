@@ -1,4 +1,4 @@
-"""Deterministic PEP 427 pure-Python wheel packager for Story Universe Architect."""
+"""Deterministic PEP 427 pure-Python wheel packager for CharacterOS."""
 from __future__ import annotations
 
 import base64
@@ -27,7 +27,7 @@ def make_record_entry(archive_name: str, data: bytes) -> str:
     return f"{archive_name},sha256={digest},{len(data)}"
 
 
-def build_wheel(output_dir: Optional[Path] = None) -> Path:
+def build_wheel(output_dir: Path | None = None) -> Path:
     version = get_version()
     out_dir = (output_dir or DIST).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -47,23 +47,26 @@ def build_wheel(output_dir: Optional[Path] = None) -> Path:
         "Metadata-Version: 2.1\n"
         f"Name: {DISTRIBUTION_NAME}\n"
         f"Version: {version}\n"
-        "Summary: Story Universe Architect - Localhost-first narrative workbench and universe compiler.\n"
+        "Summary: CharacterOS - Localhost-first narrative workbench and universe compiler.\n"
         "Author: THRESHOLD team\n"
         "Author-email: threshold@story-universe.local\n"
         "Requires-Python: >=3.10\n"
+        "Project-URL: Homepage, https://github.com/UntitledTeamName/CharacterOS\n"
+        "Project-URL: Repository, https://github.com/UntitledTeamName/CharacterOS\n"
         "Description-Content-Type: text/markdown\n\n"
         + readme_text
     ).encode("utf-8")
 
     wheel_meta_content = (
         "Wheel-Version: 1.0\n"
-        "Generator: sua-packager\n"
+        "Generator: characteros-packager\n"
         "Root-Is-Purelib: true\n"
         "Tag: py3-none-any\n"
     ).encode("utf-8")
 
     entry_points_content = (
         "[console_scripts]\n"
+        "characteros = story_universe_architect.cli:main\n"
         "sua = story_universe_architect.cli:main\n"
     ).encode("utf-8")
 

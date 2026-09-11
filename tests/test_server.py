@@ -1,4 +1,4 @@
-"""HTTP server and REST API tests for Story Universe Architect runtime.
+"""HTTP server and REST API tests for CharacterOS runtime.
 Standard library unittest with real local loopback HTTP server. Zero cloud dependencies.
 """
 from __future__ import annotations
@@ -172,7 +172,7 @@ class ServerIntegrationTests(unittest.TestCase):
         status, headers, raw = self.fetch("/")
         self.assertEqual(status, 200)
         content = raw.decode("utf-8")
-        self.assertIn("Story Universe Architect", content)
+        self.assertIn("CharacterOS", content)
         # Security headers
         self.assertEqual(headers.get("X-Frame-Options"), "DENY")
         self.assertEqual(headers.get("X-Content-Type-Options"), "nosniff")

@@ -1,20 +1,20 @@
-# Story Universe Architect — System Architecture
+# CharacterOS — System Architecture
 
 ## Mental Model & Topology
 
-Story Universe Architect (SUA) is a localhost-first narrative workbench built around a clear separation of concerns:
+CharacterOS is a localhost-first narrative workbench built around a clear separation of concerns:
 
 ```text
 USER (Writer)
   │
-  │ /sua
+  │ /characteros or /sua
   ▼
 WORKBUDDY (Conversational & Creative Agent)
   │
   ▼
-StoryUniverseArchitect Skill
+CharacterOS Skill
   │
-  ├── 1. Detects or acquires local SUA runtime (Mode 1, 2, or 3)
+  ├── 1. Detects or acquires local CharacterOS runtime (Mode 1, 2, or 3)
   ├── 2. Starts or reuses the local server on 127.0.0.1:8765
   ├── 3. Collects story requirements conversationally (Premise, Format, Cast Size, Tone, Genre)
   ├── 4. Generates complete universe in a single pass
@@ -24,12 +24,12 @@ StoryUniverseArchitect Skill
   │
   │ localhost HTTP (JSON)
   ▼
-SUA RUNTIME SERVER (127.0.0.1:<port>)
+CHARACTEROS RUNTIME SERVER (127.0.0.1:<port>)
   │
   ├── Local server (ThreadingHTTPServer)
   ├── Canonical schema & domain model (Draft 2020-12)
   ├── Deterministic compilers (Bible, Seeds, Visual Prompts, SVG Atlas)
-  ├── Workspace persistence engine (~/.story-universe-architect/)
+  ├── Workspace persistence engine (~/.characteros/)
   ├── Targeted patch updates & proposal acceptance
   └── Bundled production web assets (web/index.html)
           │
@@ -37,7 +37,7 @@ SUA RUNTIME SERVER (127.0.0.1:<port>)
 http://127.0.0.1:<port>/?workspace=<id>
           │
           ▼
-FIXED LOCAL SUA WEB APPLICATION (Browser Workbench)
+FIXED LOCAL CHARACTEROS WEB APPLICATION (Browser Workbench)
 ```
 
 ---
@@ -50,11 +50,11 @@ FIXED LOCAL SUA WEB APPLICATION (Browser Workbench)
 | **Creative Reasoning** | WorkBuddy | Cast design, personality, voice samples, asymmetric tension, narrative gap proposals. |
 | **Workflow Orchestration** | WorkBuddy | Single-pass generation sequence, repair of validation errors, submission. |
 | **Semantic Edits** | WorkBuddy | Interpreting natural-language change requests, updating structured fields. |
-| **Canonical Data Model** | SUA Runtime | Universe schema, 16 communication lenses, field limits, typing. |
-| **Deterministic Validation** | SUA Runtime | Graph connectivity, endpoint verification, non-empty voice samples. |
-| **Persistence & State** | SUA Runtime | Atomic writes to per-user data directory (`~/.story-universe-architect/workspaces`). |
-| **Deterministic Compilers** | SUA Runtime | Generating prompt kits, story seeds, markdown bible, SVG graph. |
-| **Interactive Workbench** | SUA Runtime Web UI | Node-dragging SVG relationship atlas, card inspector, proposal accept/reject, manual review, exports. |
+| **Canonical Data Model** | CharacterOS Runtime | Universe schema, 16 communication lenses, field limits, typing. |
+| **Deterministic Validation** | CharacterOS Runtime | Graph connectivity, endpoint verification, non-empty voice samples. |
+| **Persistence & State** | CharacterOS Runtime | Atomic writes to per-user data directory (`~/.characteros/workspaces`). |
+| **Deterministic Compilers** | CharacterOS Runtime | Generating prompt kits, story seeds, markdown bible, SVG graph. |
+| **Interactive Workbench** | CharacterOS Web UI | Node-dragging SVG relationship atlas, card inspector, proposal accept/reject, manual review, exports. |
 
 ---
 

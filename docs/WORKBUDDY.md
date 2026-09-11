@@ -1,19 +1,19 @@
-# Story Universe Architect — WorkBuddy User Guide
+# CharacterOS — WorkBuddy User Guide
 
 ## Getting Started in WorkBuddy
 
-Story Universe Architect is designed for seamless, agentic operation inside WorkBuddy.
+CharacterOS is designed for seamless, agentic operation inside WorkBuddy.
 
 ### Invocation
-Type `/sua` in your WorkBuddy chat:
+Type `/characteros` (or `/sua`) in your WorkBuddy chat:
 
 ```text
 User:
-/sua
+/characteros
 ```
 
 WorkBuddy will automatically:
-1. Detect or acquire the local Story Universe Architect runtime.
+1. Detect or acquire the local CharacterOS runtime.
 2. Verify server health.
 3. Prompt you conversationally for your story requirements:
    - Premise / Concept
@@ -26,7 +26,7 @@ You can provide everything in one go:
 
 ```text
 User:
-/sua A dark psychological-thriller screenplay about five researchers
+/characteros A dark psychological-thriller screenplay about five researchers
 trapped in an Antarctic station after discovering that one person's
 memories have been fabricated.
 ```
@@ -42,7 +42,7 @@ WorkBuddy orchestrates generation of the entire story universe in **one autonomo
 2. Builds the connected, asymmetric relationship network with dual perspectives and breaking points.
 3. Proposes 2–3 optional narrative gap additions.
 4. Compiles the 4-category visual prompt kit and relationship-driven story seeds.
-5. Validates against the SUA schema and persists to your local workspace.
+5. Validates against the CharacterOS schema and persists to your local workspace.
 
 You receive a concise chat summary and a localhost link:
 ```text
@@ -60,7 +60,7 @@ User:
 Make Sarah distrust Marcus more, but don't change their shared history.
 ```
 
-WorkBuddy retrieves the workspace, updates the tension and read while preserving protected history, validates the update, and saves it back to the SUA workspace.
+WorkBuddy retrieves the workspace, updates the tension and read while preserving protected history, validates the update, and saves it back to the CharacterOS workspace.
 
 ---
 

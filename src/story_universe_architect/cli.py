@@ -1,4 +1,4 @@
-"""Story Universe Architect command-line interface.
+"""CharacterOS command-line interface.
 
 Provides commands to start, inspect, stop the server, validate story files,
 and manage story workspaces.
@@ -16,14 +16,17 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 from . import __version__
 from . import model
 from .server import DEFAULT_PORT, MOVABLE_PORTS, run_server
 from .store import WorkspaceStore
 
-PID_FILE = Path.home() / ".story-universe-architect" / "sua.pid"
+PID_DIR = Path.home() / ".characteros"
+PID_DIR.mkdir(parents=True, exist_ok=True)
+PID_FILE = PID_DIR / "characteros.pid"
+LEGACY_PID_FILE = Path.home() / ".story-universe-architect" / "sua.pid"
 
 
 def probe_health(port: int, timeout: float = 1.0) -> Optional[dict]:
@@ -51,7 +54,7 @@ def cmd_start(args) -> int:
     running = find_running_server()
     if running:
         port, info = running
-        print(f"Story Universe Architect is already running at http://127.0.0.1:{port}")
+        print(f"CharacterOS is already running at http://127.0.0.1:{port}")
         print(f"Version: {info.get('version')} | Workspaces: {info.get('workspaces_count')}")
         return 0
 
@@ -92,7 +95,7 @@ def cmd_start(args) -> int:
         running = find_running_server()
         if running:
             port, info = running
-            print(f"Story Universe Architect started successfully at http://127.0.0.1:{port}")
+            print(f"CharacterOS started successfully at http://127.0.0.1:{port}")
             print(f"PID: {proc.pid} | Data dir: {info.get('data_dir')}")
             return 0
         time.sleep(0.2)
@@ -108,7 +111,7 @@ def cmd_status(args) -> int:
         if args.json:
             print(json.dumps({"running": True, "port": port, "health": info}, indent=2))
         else:
-            print(f"Story Universe Architect is running at http://127.0.0.1:{port}")
+            print(f"CharacterOS is running at http://127.0.0.1:{port}")
             print(f"  Version:     {info.get('version')}")
             print(f"  PID:         {info.get('pid')}")
             print(f"  Workspaces:  {info.get('workspaces_count')}")
@@ -118,7 +121,7 @@ def cmd_status(args) -> int:
         if args.json:
             print(json.dumps({"running": False}, indent=2))
         else:
-            print("Story Universe Architect is not currently running.")
+            print("CharacterOS is not currently running.")
         return 1
 
 
@@ -126,14 +129,15 @@ def cmd_stop(args) -> int:
     running = find_running_server()
     stopped = False
 
-    if PID_FILE.is_file():
-        try:
-            pid = int(PID_FILE.read_text(encoding="utf-8").strip())
-            os.kill(pid, signal.SIGTERM)
-            stopped = True
-        except (OSError, ValueError):
-            pass
-        PID_FILE.unlink(missing_ok=True)
+    for pf in (PID_FILE, LEGACY_PID_FILE):
+        if pf.is_file():
+            try:
+                pid = int(pf.read_text(encoding="utf-8").strip())
+                os.kill(pid, signal.SIGTERM)
+                stopped = True
+            except (OSError, ValueError):
+                pass
+            pf.unlink(missing_ok=True)
 
     if running and not stopped:
         port, info = running
@@ -146,13 +150,13 @@ def cmd_stop(args) -> int:
                 pass
 
     if stopped:
-        print("Story Universe Architect server stopped.")
+        print("CharacterOS server stopped.")
         return 0
     elif running:
         sys.stderr.write("Could not automatically stop the running process. Please terminate PID manually.\n")
         return 1
     else:
-        print("Story Universe Architect is not running.")
+        print("CharacterOS is not running.")
         return 0
 
 
@@ -232,15 +236,15 @@ def cmd_export(args) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
-        prog="sua",
-        description=f"Story Universe Architect CLI (v{__version__}) - narrative universe workbench",
+        prog="characteros",
+        description=f"CharacterOS CLI (v{__version__}) - narrative universe workbench",
     )
-    ap.add_argument("-v", "--version", action="version", version=f"Story Universe Architect {__version__}")
+    ap.add_argument("-v", "--version", action="version", version=f"CharacterOS {__version__}")
 
     sub = ap.add_subparsers(dest="subcommand")
 
-    # sua start
-    p_start = sub.add_parser("start", help="Start the local Story Universe Architect server.")
+    # start
+    p_start = sub.add_parser("start", help="Start the local CharacterOS server.")
     p_start.add_argument("--port", type=int, default=DEFAULT_PORT, help="Port to bind to (default: 8765).")
     p_start.add_argument("--data-dir", type=str, default=None, help="Custom data directory for story universes.")
     p_start.add_argument("--daemon", action="store_true", help="Run server in the background.")

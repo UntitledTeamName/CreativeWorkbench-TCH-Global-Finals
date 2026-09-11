@@ -1,4 +1,4 @@
-"""Command-line interface for WorkBuddy to interact with Story Universe Architect."""
+"""Command-line interface for WorkBuddy to interact with CharacterOS."""
 from __future__ import annotations
 
 import argparse
@@ -6,19 +6,19 @@ import json
 import sys
 from pathlib import Path
 
-from story_universe_connect import SUAClient, ensure_server_running, find_active_server
+from story_universe_connect import CharacterOSClient, ensure_server_running, find_active_server
 
 
 def main():
-    ap = argparse.ArgumentParser(description="WorkBuddy SUA CLI adapter.")
+    ap = argparse.ArgumentParser(description="WorkBuddy CharacterOS CLI adapter.")
     sub = ap.add_subparsers(dest="action")
 
     # start
-    p_start = sub.add_parser("start", help="Ensure SUA runtime is active and report URL.")
+    p_start = sub.add_parser("start", help="Ensure CharacterOS runtime is active and report URL.")
     p_start.add_argument("--port", type=int, default=8765)
 
     # status
-    sub.add_parser("status", help="Check if SUA runtime is running.")
+    sub.add_parser("status", help="Check if CharacterOS runtime is running.")
 
     # validate
     p_val = sub.add_parser("validate", help="Validate a candidate universe JSON file.")
@@ -57,10 +57,10 @@ def main():
             print(json.dumps({"running": False}, indent=2))
             return 1
 
-    client = SUAClient()
+    client = CharacterOSClient()
 
     if args.action == "start":
-        print(f"SUA runtime ready: {client.base_url}")
+        print(f"CharacterOS runtime ready: {client.base_url}")
         print(f"Health: {json.dumps(client.server_info, indent=2)}")
         return 0
 

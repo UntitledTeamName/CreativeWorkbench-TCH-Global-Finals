@@ -1,4 +1,4 @@
-# Story Universe Architect — Data Contract & Schema Specification
+# CharacterOS — Data Contract & Schema Specification
 
 ## Schema Version
 `schema_version`: `"1.0"` (Draft 2020-12 compatible)

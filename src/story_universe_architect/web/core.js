@@ -1,5 +1,5 @@
-/* Story Universe Architect — portable, dependency-free domain layer. */
-(function (root, factory) { const api=factory(); if(typeof module==='object'&&module.exports) module.exports=api; else root.SUA=api; })(typeof globalThis!=='undefined'?globalThis:this,function(){
+/* CharacterOS — portable, dependency-free domain layer. */
+(function (root, factory) { const api=factory(); if(typeof module==='object'&&module.exports) module.exports=api; else { root.CharacterOS=api; root.SUA=api; } })(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const clone=o=>JSON.parse(JSON.stringify(o));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

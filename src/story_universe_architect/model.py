@@ -1,4 +1,4 @@
-"""Story Universe Architect domain and model layer.
+"""CharacterOS domain and model layer.
 
 Deterministic validation, schema enforcement, artifact compilation, and stable serialization.
 Standard library only; zero external runtime dependencies.
@@ -583,7 +583,7 @@ def compile_graph_svg(u: dict) -> str:
 
 
 def package_zip(u: dict, portable_html: Optional[str] = None) -> bytes:
-    """Create complete portable ZIP archive matching SUA export standard."""
+    """Create complete portable ZIP archive matching CharacterOS export standard."""
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("universe.json", json.dumps(u, indent=2, ensure_ascii=False))

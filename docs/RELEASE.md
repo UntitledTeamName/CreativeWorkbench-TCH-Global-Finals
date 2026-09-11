@@ -1,4 +1,4 @@
-# Story Universe Architect — Release Automation Guide
+# CharacterOS — Release Automation Guide
 
 ## The Authoritative Release Command
 
@@ -31,10 +31,10 @@ This single authoritative command builds all release artifacts, updates metadata
 
 4. **Stage 4 — Update Release Manifests**:
    - Computes SHA-256 digest of the built wheel.
-   - Updates `release.json`, `runtime-manifest.json`, and `skills/StoryUniverseArchitect/references/installation.json`.
+   - Updates `release.json`, `runtime-manifest.json`, and `skills/CharacterOS/references/installation.json`.
 
 5. **Stage 5 — Build Skill ZIP**:
-   - Packages `skills/StoryUniverseArchitect/` into `dist/StoryUniverseArchitect.zip`.
+   - Packages `skills/CharacterOS/` into `dist/CharacterOS.zip`.
    - Contains updated checksums from Stage 4.
 
 6. **Stage 6 — Generate Checksums**:

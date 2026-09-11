@@ -55,7 +55,7 @@ def update_manifests(
         run_path.write_text(json.dumps(run, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     # 3. Update Skill installation.json
-    inst_path = ROOT / "skills" / "StoryUniverseArchitect" / "references" / "installation.json"
+    inst_path = ROOT / "skills" / "CharacterOS" / "references" / "installation.json"
     if inst_path.is_file():
         inst = json.loads(inst_path.read_text(encoding="utf-8"))
         if wheel_sha and wheel_path:

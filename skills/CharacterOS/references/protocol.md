@@ -1,19 +1,19 @@
-# Story Universe Architect — WorkBuddy Integration Protocol
+# CharacterOS — WorkBuddy Integration Protocol
 
 ## Overview
 
-The Story Universe Architect (SUA) protocol defines the deterministic contract between **WorkBuddy** (the conversational and creative orchestrator) and the **SUA Runtime** (the localhost persistence, validation, and editing workbench).
+The CharacterOS protocol defines the deterministic contract between **WorkBuddy** (the conversational and creative orchestrator) and the **CharacterOS Runtime** (the localhost persistence, validation, and editing workbench).
 
 ```text
 WORKBUDDY CHAT / ORCHESTRATION
               │
               │  Localhost HTTP (JSON)
               ▼
-   SUA RUNTIME SERVER (127.0.0.1:<port>)
+   CHARACTEROS RUNTIME SERVER (127.0.0.1:<port>)
               │
               ├─ REST Endpoints (/api/...)
               ├─ Deterministic Validation & Compilers
-              ├─ Workspace Persistence (~/.story-universe-architect/)
+              ├─ Workspace Persistence (~/.characteros/)
               └─ Bundled Web Application (HTML5 / SVG)
               │
               ▼
@@ -35,7 +35,7 @@ WORKBUDDY CHAT / ORCHESTRATION
     "port": 8765,
     "pid": 12345,
     "workspaces_count": 3,
-    "data_dir": "C:\\Users\\...\\.story-universe-architect\\workspaces"
+    "data_dir": "C:\\Users\\...\\.characteros\\workspaces"
   }
   ```
 
@@ -132,7 +132,7 @@ WorkBuddy directs the author to the interactive workbench using:
 http://127.0.0.1:<port>/?workspace=<workspace_id>
 ```
 
-When opened, the SUA server dynamically injects the requested workspace's universe into the client HTML, instantly rendering:
+When opened, the CharacterOS server dynamically injects the requested workspace's universe into the client HTML, instantly rendering:
 - The Character Bible & Cards
 - The Interactive SVG Relationship Atlas
 - The Narrative Gap Suggestions

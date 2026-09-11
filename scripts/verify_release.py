@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 
 WHEEL_NAME = "story_universe_architect_workbench-1.1.0-py3-none-any.whl"
-SKILL_ZIP_NAME = "StoryUniverseArchitect.zip"
+SKILL_ZIP_NAME = "CharacterOS.zip"
 
 
 def log(msg: str):
@@ -83,7 +83,7 @@ def run_isolated_verification() -> int:
 
         cli_cmd = [sys.executable, "-m", "story_universe_architect.cli", "--help"]
         res = subprocess.run(cli_cmd, env=env, capture_output=True, text=True, timeout=10)
-        if res.returncode != 0 or "Story Universe Architect" not in res.stdout:
+        if res.returncode != 0 or "CharacterOS" not in res.stdout:
             sys.stderr.write(f"Error: CLI --help failed:\n{res.stderr}\n")
             return 1
         log("CLI entrypoint verified.")
@@ -185,7 +185,7 @@ def run_isolated_verification() -> int:
                     sys.stderr.write(f"Error: Web index returned {resp.status}\n")
                     return 1
                 body = resp.read().decode("utf-8")
-                if "Story Universe Architect" not in body or "Verified isolated runtime execution." not in body:
+                if "CharacterOS" not in body or "Verified isolated runtime execution." not in body:
                     sys.stderr.write("Error: Dynamic universe injection into HTML failed.\n")
                     return 1
             log("Web application serving and workspace injection verified.")

@@ -1,59 +1,57 @@
-"""Story Universe Architect local HTTP server.
+"""CharacterOS local HTTP server.
 
-Serves the canonical web application, exposes REST endpoints for WorkBuddy,
-manages workspace persistence, and validates story universe data.
-Standard library only; zero external runtime dependencies.
+Loopback-first, dependency-free HTTP server exposing:
+- Static web application assets with dynamic boot data injection
+- REST API for story universe validation, persistence, retrieval, and compilation
+- Safe, restricted access bound to 127.0.0.1
 """
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import mimetypes
 import os
 import re
 import socket
 import sys
-import threading
-import urllib.error
 import urllib.parse
-import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, Union
 
-from . import __version__
-from . import model
-from .store import WorkspaceStore, sanitize_workspace_id
+from . import __version__, model
+from .store import WorkspaceStore
 
-PACKAGE_ROOT = Path(__file__).resolve().parent
-WEB_ROOT = PACKAGE_ROOT / "web"
 DEFAULT_PORT = 8765
 MOVABLE_PORTS = tuple(range(8765, 8771))
+SRC_DIR = Path(__file__).resolve().parent
+WEB_ROOT = SRC_DIR / "web"
 MAX_JSON = 2_000_000
 
 
-def is_port_free(port: int) -> bool:
-    s = socket.socket()
-    s.settimeout(0.25)
-    try:
-        return s.connect_ex(("127.0.0.1", port)) != 0
-    finally:
-        s.close()
+def is_port_free(port: int, host: str = "127.0.0.1") -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.5)
+        try:
+            s.bind((host, port))
+            return True
+        except OSError:
+            return False
 
 
-def find_available_port(preferred: int = DEFAULT_PORT) -> Optional[int]:
-    order = [preferred, *MOVABLE_PORTS]
-    seen = set()
-    for p in order:
-        if p not in seen:
-            seen.add(p)
+def find_available_port(start_port: int = DEFAULT_PORT) -> Optional[int]:
+    if is_port_free(start_port):
+        return start_port
+    for p in MOVABLE_PORTS:
+        if p != start_port:
             if is_port_free(p):
                 return p
     return None
 
 
-class SUAServerHandler(BaseHTTPRequestHandler):
-    server_version = f"SUA/{__version__}"
+class CharacterOSServerHandler(BaseHTTPRequestHandler):
+    server_version = f"CharacterOS/{__version__}"
 
     @property
     def store(self) -> WorkspaceStore:
@@ -129,7 +127,7 @@ class SUAServerHandler(BaseHTTPRequestHandler):
     def render_app_html(self, workspace_id: Optional[str] = None) -> bytes:
         index_path = self.web_root / "index.html"
         if not index_path.is_file():
-            return b"<!DOCTYPE html><html><body><h1>Story Universe Architect web assets not found.</h1></body></html>"
+            return b"<!DOCTYPE html><html><body><h1>CharacterOS web assets not found.</h1></body></html>"
 
         html = index_path.read_text(encoding="utf-8")
         universe = None
@@ -177,10 +175,10 @@ class SUAServerHandler(BaseHTTPRequestHandler):
             return self.send_json(200, {
                 "version": __version__,
                 "bridge": True,
-                "token": "sua-loopback-session",
+                "token": "characteros-loopback-session",
                 "live_configured": False,
                 "model": "",
-                "project": str(PACKAGE_ROOT),
+                "project": str(SRC_DIR),
                 "data_dir": str(self.store.dir),
                 "workspaces_count": len(self.store.list_workspaces()),
             })
@@ -349,16 +347,20 @@ class SUAServerHandler(BaseHTTPRequestHandler):
         self.send_json(403, {"error": "Cross-origin access is disabled."})
 
 
-class SUAServer(ThreadingHTTPServer):
+class CharacterOSServer(ThreadingHTTPServer):
     def __init__(self, host: str = "127.0.0.1", port: int = DEFAULT_PORT, data_dir: Optional[Union[str, Path]] = None, web_root: Optional[Union[str, Path]] = None):
         self.store = WorkspaceStore(data_dir=data_dir)
         self.web_root = Path(web_root).resolve() if web_root else WEB_ROOT
-        super().__init__((host, port), SUAServerHandler)
+        super().__init__((host, port), CharacterOSServerHandler)
 
 
-def create_server(host: str = "127.0.0.1", port: int = DEFAULT_PORT, data_dir: Optional[Union[str, Path]] = None, web_root: Optional[Union[str, Path]] = None, store_instance: Optional[WorkspaceStore] = None) -> SUAServer:
-    """Factory helper to instantiate a configured SUAServer instance."""
-    srv = SUAServer(host=host, port=port, data_dir=data_dir, web_root=web_root)
+SUAServerHandler = CharacterOSServerHandler
+SUAServer = CharacterOSServer
+
+
+def create_server(host: str = "127.0.0.1", port: int = DEFAULT_PORT, data_dir: Optional[Union[str, Path]] = None, web_root: Optional[Union[str, Path]] = None, store_instance: Optional[WorkspaceStore] = None) -> CharacterOSServer:
+    """Factory helper to instantiate a configured CharacterOSServer instance."""
+    srv = CharacterOSServer(host=host, port=port, data_dir=data_dir, web_root=web_root)
     if store_instance:
         srv.store = store_instance
     return srv
@@ -371,9 +373,9 @@ def run_server(port: int = DEFAULT_PORT, data_dir: Optional[str] = None, no_brow
         sys.stderr.write(f"Error: Could not find an available port in range {DEFAULT_PORT}-{MOVABLE_PORTS[-1]}.\n")
         return 2
 
-    server = SUAServer(host="127.0.0.1", port=chosen_port, data_dir=data_dir)
+    server = CharacterOSServer(host="127.0.0.1", port=chosen_port, data_dir=data_dir)
     url = f"http://127.0.0.1:{server.server_port}"
-    print(f"Story Universe Architect {__version__} is running at {url}", flush=True)
+    print(f"CharacterOS {__version__} is running at {url}", flush=True)
     print(f"Workspaces data directory: {server.store.dir}", flush=True)
 
     if not no_browser:
@@ -390,7 +392,7 @@ def run_server(port: int = DEFAULT_PORT, data_dir: Optional[str] = None, no_brow
 
 
 def main():
-    ap = argparse.ArgumentParser(prog="sua-server", description="Story Universe Architect HTTP server.")
+    ap = argparse.ArgumentParser(prog="characteros-server", description="CharacterOS HTTP server.")
     ap.add_argument("--port", type=int, default=DEFAULT_PORT, help="Port to listen on (default: 8765).")
     ap.add_argument("--data-dir", type=str, default=None, help="Custom data directory for story workspaces.")
     ap.add_argument("--no-browser", action="store_true", default=True, help="Do not automatically open browser.")

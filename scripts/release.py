@@ -1,4 +1,4 @@
-"""Authoritative Story Universe Architect 7-Stage Release Pipeline.
+"""Authoritative CharacterOS 7-Stage Release Pipeline.
 Deterministically produces certified distributable artifacts under dist/ and executes
 isolated end-to-end verification. Zero cloud or SaaS dependencies.
 """
@@ -143,7 +143,7 @@ def stage_7_verify_release():
 
 
 def main():
-    banner("STORY UNIVERSE ARCHITECT — OFFICIAL RELEASE PIPELINE (v1.1.0)")
+    banner("CHARACTEROS — OFFICIAL RELEASE PIPELINE (v1.1.0)")
     stage_1_clean()
     stage_2_run_tests()
     wheel_path = stage_3_build_wheel()

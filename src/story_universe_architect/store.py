@@ -1,6 +1,6 @@
-"""Story Universe Architect workspace and persistent state management.
+"""CharacterOS workspace and persistent state management.
 
-Isolates user data safely in ~/.story-universe-architect/workspaces (or configurable dir).
+Isolates user data safely in ~/.characteros/workspaces (or configurable dir).
 Never mutates installed package directories.
 Provides atomic persistence, listing, retrieval, and structured patching.
 """
@@ -17,7 +17,9 @@ from typing import Any, Dict, List, Optional, Union
 
 from . import model
 
-DEFAULT_DATA_DIR = Path.home() / ".story-universe-architect" / "workspaces"
+DEFAULT_DATA_DIR = Path.home() / ".characteros" / "workspaces"
+if not DEFAULT_DATA_DIR.exists() and (Path.home() / ".story-universe-architect" / "workspaces").exists():
+    DEFAULT_DATA_DIR = Path.home() / ".story-universe-architect" / "workspaces"
 
 
 def sanitize_workspace_id(wid: str) -> str:
@@ -31,6 +33,8 @@ class WorkspaceStore:
     def __init__(self, data_dir: Optional[Union[str, Path]] = None):
         if data_dir:
             self.dir = Path(data_dir).expanduser().resolve()
+        elif "CHARACTEROS_DATA_DIR" in os.environ and os.environ["CHARACTEROS_DATA_DIR"].strip():
+            self.dir = Path(os.environ["CHARACTEROS_DATA_DIR"].strip()).expanduser().resolve()
         elif "SUA_DATA_DIR" in os.environ and os.environ["SUA_DATA_DIR"].strip():
             self.dir = Path(os.environ["SUA_DATA_DIR"].strip()).expanduser().resolve()
         else:

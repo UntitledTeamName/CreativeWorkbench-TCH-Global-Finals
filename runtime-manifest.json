@@ -1,18 +1,18 @@
 {
-  "application": "Story Universe Architect",
+  "application": "CharacterOS",
   "distribution": "story_universe_architect_workbench",
   "version": "1.1.0",
   "protocol": "1.0",
   "schema": "1.0",
   "entrypoint": "story_universe_architect.cli:main",
   "wheel": "dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl",
-  "skill_zip": "dist/StoryUniverseArchitect.zip",
+  "skill_zip": "dist/CharacterOS.zip",
   "sha256": {
-    "wheel": "5bd00ca8bd3df85c2b51aa8c3b35be5d45bc90725296b5e33abb70bc4cb4bb28",
-    "skill": "4244cb6491701b6fcf535a3f5ed8bc86bd8ab5c00f83038c600331e6bb31aa7e"
+    "wheel": "1abd507510d716f72d7771cd3c3c85ab48b474f343c83128685b00669908f573",
+    "skill": "2759980e41cadff723e0427c13f244c66ba190fb7386137cd0866149e68dcde8"
   },
   "compatibility": {
     "python": ">=3.10",
-    "workbuddy_skill": "StoryUniverseArchitect"
+    "workbuddy_skill": "CharacterOS"
   }
 }

@@ -1,4 +1,4 @@
-"""Story Universe Architect host process helper."""
+"""CharacterOS host process helper."""
 from __future__ import annotations
 
 import json
@@ -18,7 +18,7 @@ def main():
             print(f"Active on 127.0.0.1:{port} (PID {info.get('pid')})")
             sys.exit(0)
         else:
-            print("No active SUA server found.")
+            print("No active CharacterOS server found.")
             sys.exit(1)
 
     print("Usage: story_universe_host.py status")

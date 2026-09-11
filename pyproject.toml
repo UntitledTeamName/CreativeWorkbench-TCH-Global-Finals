@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "story_universe_architect_workbench"
 version = "1.1.0"
-description = "Story Universe Architect - Localhost-first narrative workbench and universe compiler."
+description = "CharacterOS - Localhost-first narrative workbench and universe compiler."
 readme = "README.md"
 license = { text = "Proprietary / See LICENSE" }
 requires-python = ">=3.10"
@@ -31,7 +31,12 @@ classifiers = [
 ]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/UntitledTeamName/CharacterOS"
+Repository = "https://github.com/UntitledTeamName/CharacterOS"
+
 [project.scripts]
+characteros = "story_universe_architect.cli:main"
 sua = "story_universe_architect.cli:main"
 
 [tool.setuptools.packages.find]

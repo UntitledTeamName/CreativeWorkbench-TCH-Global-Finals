@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-sys.path.insert(0, str(ROOT / "skills" / "StoryUniverseArchitect" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "CharacterOS" / "scripts"))
 
 from story_universe_architect import model, server, store
 import story_universe_connect as connector
@@ -52,7 +52,7 @@ class WorkBuddyProtocolTests(unittest.TestCase):
         cls.tmp_data.cleanup()
 
     def test_01_skill_manifest_and_references(self):
-        skill_dir = ROOT / "skills" / "StoryUniverseArchitect"
+        skill_dir = ROOT / "skills" / "CharacterOS"
         self.assertTrue((skill_dir / "SKILL.md").is_file())
 
         ref_dir = skill_dir / "references"
@@ -81,7 +81,8 @@ class WorkBuddyProtocolTests(unittest.TestCase):
         self.assertEqual(pkg, "story_universe_architect")
 
     def test_04_connector_client_operations(self):
-        client = connector.SUAClient(port=self.port)
+        self.assertIs(connector.SUAClient, connector.CharacterOSClient)
+        client = connector.CharacterOSClient(port=self.port)
 
         # Health
         health = client.health()
@@ -125,7 +126,7 @@ class WorkBuddyProtocolTests(unittest.TestCase):
         val = model.validate_universe(sample_generated)
         self.assertTrue(val["ok"], f"Generated universe validation errors: {val['errors']}")
 
-        client = connector.SUAClient(port=self.port)
+        client = connector.CharacterOSClient(port=self.port)
         create_res = client.publish_universe("gen-cyber-detective", sample_generated)
         self.assertEqual(create_res["id"], "gen-cyber-detective")
 
@@ -133,7 +134,7 @@ class WorkBuddyProtocolTests(unittest.TestCase):
         self.assertEqual(retrieved["universe"]["title"], "Neon Shadows: Sector 4")
 
     def test_06_sha256_verification_logic(self):
-        content = b"SUA Wheel Mock Content"
+        content = b"CharacterOS Wheel Mock Content"
         digest = hashlib.sha256(content).hexdigest()
         self.assertTrue(connector.verify_sha256_bytes(content, digest))
         self.assertFalse(connector.verify_sha256_bytes(content, "0" * 64))

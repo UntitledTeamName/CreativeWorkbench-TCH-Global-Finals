@@ -69,6 +69,7 @@ class ReleasePackagingTests(unittest.TestCase):
 
             # Check entry point definition
             ep_text = z.read(f"{dist_info}/entry_points.txt").decode("utf-8")
+            self.assertIn("characteros = story_universe_architect.cli:main", ep_text)
             self.assertIn("sua = story_universe_architect.cli:main", ep_text)
 
             # Check no .pyc files
@@ -78,7 +79,7 @@ class ReleasePackagingTests(unittest.TestCase):
 
     def test_03_skill_zip_contents(self):
         self.assertTrue(self.skill_path.is_file())
-        self.assertEqual(self.skill_path.name, "StoryUniverseArchitect.zip")
+        self.assertEqual(self.skill_path.name, "CharacterOS.zip")
 
         with zipfile.ZipFile(self.skill_path, "r") as z:
             self.assertIsNone(z.testzip())
@@ -100,7 +101,7 @@ class ReleasePackagingTests(unittest.TestCase):
     def test_04_manifest_consistency(self):
         release_json = ROOT / "release.json"
         runtime_json = ROOT / "runtime-manifest.json"
-        install_json = ROOT / "skills" / "StoryUniverseArchitect" / "references" / "installation.json"
+        install_json = ROOT / "skills" / "CharacterOS" / "references" / "installation.json"
 
         rel_data = json.loads(release_json.read_text(encoding="utf-8"))
         rt_data = json.loads(runtime_json.read_text(encoding="utf-8"))

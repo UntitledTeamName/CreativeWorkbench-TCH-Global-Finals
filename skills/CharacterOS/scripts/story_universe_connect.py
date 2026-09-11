@@ -1,4 +1,4 @@
-"""Story Universe Architect connection, runtime acquisition, and API client.
+"""CharacterOS connection, runtime acquisition, and API client.
 
 Handles:
 1. Three runtime acquisition modes:
@@ -27,7 +27,7 @@ from typing import Any, Dict, Optional, Tuple, Union
 SKILL_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_PORT = 8765
 MOVABLE_PORTS = tuple(range(8765, 8771))
-CACHE_DIR = Path.home() / ".story-universe-architect" / "releases"
+CACHE_DIR = Path.home() / ".characteros" / "releases"
 
 
 def read_installation_meta() -> dict:
@@ -92,11 +92,11 @@ def acquire_mode3_cached_release(fixture_wheel: Optional[Path] = None) -> Path:
     elif (SKILL_DIR.parents[1] / "dist" / wheel_name).is_file():
         shutil.copy2(SKILL_DIR.parents[1] / "dist" / wheel_name, wheel_target)
     elif not wheel_target.is_file():
-        repo = meta.get("repository", "https://github.com/story-universe-architect/story-universe-architect")
+        repo = meta.get("repository", "https://github.com/UntitledTeamName/CharacterOS")
         tag = meta.get("release_tag", f"v{version}")
         url = f"{repo}/releases/download/{tag}/{wheel_name}"
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "StoryUniverseArchitect-Skill"})
+            req = urllib.request.Request(url, headers={"User-Agent": "CharacterOS-Skill"})
             with urllib.request.urlopen(req, timeout=30) as resp:
                 wheel_target.write_bytes(resp.read())
         except Exception as ex:
@@ -222,12 +222,12 @@ def ensure_server_running(port: int = DEFAULT_PORT, fixture_wheel: Optional[Path
         proc.terminate()
     except Exception:
         pass
-    raise TimeoutError(f"SUA server started on port {target_port} but failed health check within 15 seconds.")
+    raise TimeoutError(f"CharacterOS server started on port {target_port} but failed health check within 15 seconds.")
 
 
 # --- 3. Client API Operations ---
 
-class SUAClient:
+class CharacterOSClient:
     def __init__(self, port: Optional[int] = None, fixture_wheel: Optional[Path] = None):
         if port and probe_server(port):
             self.port = port
@@ -255,9 +255,9 @@ class SUAClient:
             err_raw = e.read().decode("utf-8", "replace")
             try:
                 err_json = json.loads(err_raw)
-                raise RuntimeError(f"SUA API error (HTTP {e.code}): {err_json.get('error', err_raw)}") from e
+                raise RuntimeError(f"CharacterOS API error (HTTP {e.code}): {err_json.get('error', err_raw)}") from e
             except json.JSONDecodeError:
-                raise RuntimeError(f"SUA API error (HTTP {e.code}): {err_raw}") from e
+                raise RuntimeError(f"CharacterOS API error (HTTP {e.code}): {err_raw}") from e
 
     def health(self) -> dict:
         return self._request("/api/health")
@@ -296,7 +296,8 @@ class SUAClient:
 
 
 # Aliases and verification helper
-StoryUniverseClient = SUAClient
+SUAClient = CharacterOSClient
+StoryUniverseClient = CharacterOSClient
 find_runtime_source = detect_mode1_local_dev
 find_runtime_installed = lambda: "story_universe_architect" if detect_mode2_preinstalled() else None
 

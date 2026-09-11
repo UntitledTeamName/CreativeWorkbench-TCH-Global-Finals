@@ -1,4 +1,4 @@
-# Story Universe Architect — Design System & Visual Identity
+# CharacterOS — Design System & Visual Identity
 
 ## Core Visual Philosophy
 - **Restrained Editorial Aesthetics**: Dark mode slate theme (`#0f1218` background, `#1b2230` cards, `#7c6cff` primary accent, `#36c2b4` secondary teal).
