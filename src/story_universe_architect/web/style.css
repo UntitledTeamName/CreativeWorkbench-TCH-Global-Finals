@@ -196,16 +196,21 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--accent-soft);out
 .filter:hover{color:var(--ink);border-color:var(--accent-soft)}
 .filter.active{background:var(--accent-wash);color:var(--accent);border-color:var(--accent-soft)}
 .searchbox{width:220px;margin-left:auto}
-.prompt-card{overflow:hidden;padding:0}
-.prompt-cover{height:120px;display:flex;align-items:flex-start;justify-content:space-between;padding:14px;position:relative}
+.prompt-card{overflow:hidden;padding:0;transition:transform .18s ease,border-color .18s ease}
+.prompt-card:hover{transform:translateY(-2px);border-color:var(--accent-soft)}
+.prompt-cover{min-height:148px;display:flex;flex-direction:column;justify-content:space-between;padding:16px;position:relative}
+.prompt-cover-top{display:flex;align-items:center;justify-content:space-between;width:100%;z-index:2}
 .prompt-cover .symbol{font:24px var(--serif);color:rgba(255,255,255,.9)}
-.prompt-cover .badge{background:rgba(0,0,0,.35);border-color:rgba(255,255,255,.18);color:#fff}
+.prompt-cover .badge{background:rgba(0,0,0,.42);border-color:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(4px)}
+.prompt-cover-meta{z-index:2;margin-top:auto}
+.prompt-cover .cover-name{font:600 20px/1.2 var(--serif);margin:0;background:linear-gradient(180deg,#fff,#d9e0ee);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.prompt-cover .cover-type{font-size:var(--fs-cap);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);font-weight:600;margin-top:5px}
 .prompt-cover.portraits{background:linear-gradient(135deg,#3a2a55,#241a36)}
 .prompt-cover.scenes{background:linear-gradient(135deg,#1f3a4d,#16242e)}
 .prompt-cover.presentation{background:linear-gradient(135deg,#2c3340,#1a1f27)}
 .prompt-cover.moodboard{background:linear-gradient(135deg,#3a2f24,#241d16)}
-.prompt-body{padding:18px 20px 20px}
-.prompt-excerpt{color:var(--muted);font-size:var(--fs-sm);line-height:1.6;margin-top:8px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.prompt-body{padding:16px 18px 18px}
+.prompt-excerpt{color:var(--muted);font-size:var(--fs-sm);line-height:1.6;margin-top:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ---------- Proposals ---------- */
 .proposals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -293,7 +298,7 @@ body.dragging::after{content:"Drop your universe .json to showcase it";position:
 .edge:hover .edge-path{stroke:var(--accent-2)}
 .edge.selected .edge-path{stroke:var(--accent);stroke-width:2.4}
 .edge.dim{opacity:.32}
-.graph-node{cursor:pointer;animation:fadeUp .5s ease both}
+.graph-node{cursor:pointer;animation:fadeIn .4s ease both}
 .graph-node .body{fill:var(--bg-2);stroke:var(--line);stroke-width:1.3;transition:stroke .18s,fill .18s}
 .graph-node:hover .body{stroke:var(--accent-soft)}
 .graph-node.selected .body{stroke:var(--accent);stroke-width:2}
