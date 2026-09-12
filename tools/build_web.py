@@ -1,6 +1,7 @@
 """Build the standalone single-file index.html for CharacterOS."""
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
 
@@ -29,6 +30,11 @@ def build_h5() -> Path:
     css = (WEB_DIR / "style.css").read_text(encoding="utf-8")
     core = (WEB_DIR / "core.js").read_text(encoding="utf-8")
     app = (WEB_DIR / "app.js").read_text(encoding="utf-8")
+
+    logo_path = WEB_DIR / "logo.png"
+    if logo_path.is_file():
+        b64_logo = base64.b64encode(logo_path.read_bytes()).decode("ascii")
+        app = app.replace("/*__LOGO_SRC__*/ 'logo.png'", f"'data:image/png;base64,{b64_logo}'")
 
     rendered = template.replace("/*__CSS__*/", css)
     rendered = rendered.replace("/*__CORE__*/", core)

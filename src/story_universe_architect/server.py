@@ -239,7 +239,7 @@ class CharacterOSServerHandler(BaseHTTPRequestHandler):
                 return self.send_bytes(200, target.read_bytes(), mime or "application/octet-stream")
 
         # Top-level files in web/
-        if path in ("/style.css", "/app.js", "/core.js"):
+        if path in ("/style.css", "/app.js", "/core.js", "/logo.png"):
             target = (self.web_root / path[1:]).resolve()
             if target.is_file():
                 mime, _ = mimetypes.guess_type(str(target))

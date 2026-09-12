@@ -8,8 +8,8 @@
   "wheel": "dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl",
   "skill_zip": "dist/CharacterOS.zip",
   "sha256": {
-    "wheel": "eac29bd3e992885312b81d0613725c22fbb33cc7f0da57b0bb61d4955f69d6e4",
-    "skill": "487168ff6181f8fa2c16a8385650ca39ec5571de66215e6a292e928ba58b6668"
+    "wheel": "fafdd60a59b0b15efa50f49c02138ae65964e597ccc70ace8f5f8bd0ed0ec45f",
+    "skill": "3ee5a41d94affb6098625711174439f8763d20c12139568c54274c1b07133f7c"
   },
   "compatibility": {
     "python": ">=3.10",
@@ -25,12 +25,13 @@
     "src/story_universe_architect/schemas/archetypes.json": "7e86ac99eb7f66ac58259c959b0b8a6d71259de93082397a8326e3db68d89f4b",
     "src/story_universe_architect/schemas/themes.json": "503a168704511a560b4a673ab2eb375db815d14dc08c61e45698aad2a0a6c5b0",
     "src/story_universe_architect/schemas/universe.schema.json": "bcaff141033db309a8b1a8bcb200c9763bd1596a1c376aaef46045ee8f126906",
-    "src/story_universe_architect/server.py": "d191c20973604253f9d5e4e23e7d1a88c626fd814ac4a804d13164245c1c67f4",
+    "src/story_universe_architect/server.py": "c5fd3e25313ff5336ce683fbc971dffdb4dad8f12a60a217ec716ab2c6d7509e",
     "src/story_universe_architect/store.py": "eea3004105d9c7dd462b9eb4ccc68a222bfafbc203a29e35a4fbb97abf9b8e20",
-    "src/story_universe_architect/web/app.js": "03289a630212942be88610c354da723eccfc700e0bb1d34b55d5bd940634c514",
+    "src/story_universe_architect/web/app.js": "36c42e36eda5eb8686a9ec85550b511e205e92cf1bc46e814448f1870bba2c56",
     "src/story_universe_architect/web/core.js": "4ae68ff51937e879c48720827bc3907778d2296926ddc4b5f040984e0add4838",
-    "src/story_universe_architect/web/index.html": "3ab12eceb361ae2b83cd5e89a9d18a54aa7731a3687bd0eb495e0eddf84ffdc0",
-    "src/story_universe_architect/web/index.template.html": "e6b893fbc39d8a5429c6552b85fc4968da46031bee70807fc6edd16af7b3c672",
-    "src/story_universe_architect/web/style.css": "2136c24c7317ce8ad91f682658256e07fc0adce049965d74a97c7933bb37efcf"
+    "src/story_universe_architect/web/index.html": "082b13433195e9741074af22e6f2f43b6c5674e7b46ca15303a5c4357bd93721",
+    "src/story_universe_architect/web/index.template.html": "13fbe090c7d6af0a412ce9b63673a066946644731d53656df2063bd117a46aae",
+    "src/story_universe_architect/web/logo.png": "fc07def9b16362bffa495e87a4265d994c87117236b96f60e8845411ec635713",
+    "src/story_universe_architect/web/style.css": "7b3d1ebd8edaa5f32405aff8d8ff6d08902ba8c3540c24aaaf9ffddd80ea8b55"
   }
 }

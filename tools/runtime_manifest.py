@@ -25,7 +25,7 @@ def compute_runtime_files() -> dict[str, str]:
     for p in sorted(src_dir.rglob("*")):
         if not p.is_file():
             continue
-        if "__pycache__" in p.parts or p.suffix in (".pyc", ".pyo"):
+        if "__pycache__" in p.parts or p.suffix in (".pyc", ".pyo") or any(part.startswith(".") for part in p.relative_to(src_dir).parts):
             continue
         rel = p.relative_to(ROOT).as_posix()
         file_hashes[rel] = file_sha256(p)
