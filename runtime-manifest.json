@@ -8,8 +8,8 @@
   "wheel": "dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl",
   "skill_zip": "dist/CharacterOS.zip",
   "sha256": {
-    "wheel": "fafdd60a59b0b15efa50f49c02138ae65964e597ccc70ace8f5f8bd0ed0ec45f",
-    "skill": "3ee5a41d94affb6098625711174439f8763d20c12139568c54274c1b07133f7c"
+    "wheel": "cd283e8713d707305e859f55a6aeecdac6c9d083f4151a2d79fa75c51c5e1305",
+    "skill": "6cd55cf9b618678bc0bc65f18c62c250e870fbf71140e7e35933c33ca1cdf840"
   },
   "compatibility": {
     "python": ">=3.10",
@@ -27,11 +27,11 @@
     "src/story_universe_architect/schemas/universe.schema.json": "bcaff141033db309a8b1a8bcb200c9763bd1596a1c376aaef46045ee8f126906",
     "src/story_universe_architect/server.py": "c5fd3e25313ff5336ce683fbc971dffdb4dad8f12a60a217ec716ab2c6d7509e",
     "src/story_universe_architect/store.py": "eea3004105d9c7dd462b9eb4ccc68a222bfafbc203a29e35a4fbb97abf9b8e20",
-    "src/story_universe_architect/web/app.js": "36c42e36eda5eb8686a9ec85550b511e205e92cf1bc46e814448f1870bba2c56",
-    "src/story_universe_architect/web/core.js": "4ae68ff51937e879c48720827bc3907778d2296926ddc4b5f040984e0add4838",
-    "src/story_universe_architect/web/index.html": "082b13433195e9741074af22e6f2f43b6c5674e7b46ca15303a5c4357bd93721",
+    "src/story_universe_architect/web/app.js": "891a39f56577cab245d09fcb60ad031e2036d2ce43e4d351e4e63beeba20b735",
+    "src/story_universe_architect/web/core.js": "0527950b5dc6d0159a69ca13cdd1589fa5c58b3db5474f3d914ec6c9ac0716ad",
+    "src/story_universe_architect/web/index.html": "72c1c042798d1b05b49d7f728a52b39747f3bf8db05660a3674735de91eea722",
     "src/story_universe_architect/web/index.template.html": "13fbe090c7d6af0a412ce9b63673a066946644731d53656df2063bd117a46aae",
     "src/story_universe_architect/web/logo.png": "fc07def9b16362bffa495e87a4265d994c87117236b96f60e8845411ec635713",
-    "src/story_universe_architect/web/style.css": "7b3d1ebd8edaa5f32405aff8d8ff6d08902ba8c3540c24aaaf9ffddd80ea8b55"
+    "src/story_universe_architect/web/style.css": "f0007b2fdc3bdc4c67b999ab467e1b966093b102c90f51f3b9e3be32e7cbece2"
   }
 }

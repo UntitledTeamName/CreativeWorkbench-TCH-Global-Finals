@@ -73,6 +73,78 @@ function gaps(u){const out=[];for(const c of u.characters){const links=u.relatio
  if(u.relationships.length&&!u.relationships.some(e=>e.intensity>=4))out.push({title:'Pressure is currently restrained',detail:'No relationship is marked high pressure. A quiet story can work; choose intensity intentionally rather than adding an antagonist by default.'});
  return out;
 }
+function castAnalysis(u){
+ const chars=u.characters||[],rels=u.relationships||[];
+ const deg={};chars.forEach(c=>deg[c.id]=0);
+ rels.forEach(r=>{deg[r.source]=(deg[r.source]||0)+1;deg[r.target]=(deg[r.target]||0)+1;});
+ let linchpinId=chars[0]?.id,maxD=-1;
+ Object.entries(deg).forEach(([id,d])=>{if(d>maxD){maxD=d;linchpinId=id;}});
+ const linchpin=chars.find(c=>c.id===linchpinId);
+ const powderKeg=[...rels].sort((a,b)=>b.intensity-a.intensity||b.breaking_point?.length-a.breaking_point?.length)[0]||null;
+ const sortedDeg=Object.entries(deg).sort((a,b)=>a[1]-b[1]);
+ const outsiderId=sortedDeg[0]?.[0];
+ const outsider=chars.find(c=>c.id===outsiderId);
+ const highPressureCount=rels.filter(r=>r.intensity>=4).length;
+ const totalTensionScore=rels.reduce((acc,r)=>acc+(r.intensity||3),0);
+ const avgPressure=rels.length?Math.round((totalTensionScore/rels.length)*10)/10:0;
+ return {
+  linchpin:{character:linchpin,connections:maxD,summary:linchpin?`${linchpin.name} anchors the social web with ${maxD} key connection(s). Severing them fractures the cast into isolated sub-plots.`:'None'},
+  powderKeg:{relationship:powderKeg,intensity:powderKeg?.intensity||0,summary:powderKeg?`The highest dynamic pressure (${powderKeg.intensity}/5) between ${names(u,powderKeg.source)} & ${names(u,powderKeg.target)}: “${powderKeg.breaking_point}”`:'No relationships mapped yet.'},
+  outsider:{character:outsider,connections:sortedDeg[0]?.[1]||0,summary:outsider?`${outsider.name} holds only ${sortedDeg[0]?.[1]||0} direct connection(s), making them the natural wildcard or unaligned witness.`:'None'},
+  metrics:{castSize:chars.length,relationshipCount:rels.length,highPressureCount,avgPressure,thematicThesis:u.thematic_thesis||''}
+ };
+}
+function archetypeConstellation(u){
+ const chars=u.characters||[];
+ return chars.map((c,i)=>{
+  const text=(c.emotional_baseline+' '+c.core_desire+' '+c.core_fear+' '+c.role+' '+c.archetype_label).toLowerCase();
+  let x=50,y=50;
+  if(/duty|honor|order|protect|law|loyal|mentor|service|truth|calm|exacting/i.test(text))x+=26;
+  if(/rebel|chaos|free|rogue|wild|deflect|charm|gambit|instinct|ambitious|break/i.test(text))x-=26;
+  if(/selfless|guide|nurture|sacrifice|protect|community|empathy|mediator/i.test(text))y-=26;
+  if(/power|ambition|control|survival|fear|distrust|secret|isolated|guarded/i.test(text))y+=26;
+  const jitter=((i*17)%15)-7;
+  x=Math.max(12,Math.min(88,x+jitter));
+  y=Math.max(12,Math.min(88,y+((i*23)%15)-7));
+  let quadrant='Uncertain';
+  if(x>=50&&y<50)quadrant='Disciplined Altruist';
+  else if(x<50&&y<50)quadrant='Maverick Protector';
+  else if(x<50&&y>=50)quadrant='Chaotic Individualist';
+  else quadrant='Authoritarian Pragmatist';
+  return {id:c.id,name:c.name,role:c.role,archetype:c.archetype_label,x,y,quadrant,fear:c.core_fear,desire:c.core_desire};
+ });
+}
+function storyChronology(u){
+ const rels=[...u.relationships].sort((a,b)=>b.intensity-a.intensity||a.id.localeCompare(b.id));
+ const phases=[
+  {act:'Act I · The Fragile Normal',subtitle:'Inciting Disturbance & Latent Friction',color:'var(--accent-2)'},
+  {act:'Act II · Rising Compulsion',subtitle:'Collision of Wants & Irrevocable Moves',color:'var(--accent)'},
+  {act:'Act III · The Breaking Fracture',subtitle:'Critical Confrontation & Crucible Moment',color:'var(--warn)'},
+  {act:'Resolution · The Reshaped Web',subtitle:'The Aftermath & Re-anchored Reality',color:'var(--ok)'}
+ ];
+ const events=[];
+ rels.forEach((r,idx)=>{
+  const a=names(u,r.source),b=names(u,r.target);
+  if(idx===0){
+   events.push({phaseIndex:0,title:`The Latent Schism between ${a} & ${b}`,tag:'Catalyst',summary:r.shared_history,tension:r.tension,characters:[r.source,r.target],intensity:r.intensity});
+   events.push({phaseIndex:2,title:`The Crucible: Breaking Point Erupts`,tag:'Climax Event',summary:r.breaking_point,tension:r.tension,characters:[r.source,r.target],intensity:r.intensity});
+  }else if(idx===1){
+   events.push({phaseIndex:1,title:`${a} Presses Against ${b}`,tag:'Escalation',summary:`${a} pursues “${r.source_wants}” while ${b} demands “${r.target_wants}”.`,tension:r.tension,characters:[r.source,r.target],intensity:r.intensity});
+  }else if(idx===2){
+   events.push({phaseIndex:1,title:`Divided Loyalties: ${r.label}`,tag:'Complication',summary:`${r.tension} Dramatic potential unfolds: ${r.story_potential}`,tension:r.tension,characters:[r.source,r.target],intensity:r.intensity});
+  }else{
+   events.push({phaseIndex:3,title:`Repercussions of ${r.label}`,tag:'Fallout',summary:`How the bond between ${a} and ${b} stands reshaped after the crisis.`,tension:r.story_potential,characters:[r.source,r.target],intensity:r.intensity});
+  }
+ });
+ if(!events.length){
+  events.push({phaseIndex:0,title:'Establishing the World',tag:'Premise',summary:u.concept,tension:u.thematic_thesis,characters:u.characters.map(c=>c.id).slice(0,2),intensity:3});
+ }
+ events.sort((e1,e2)=>e1.phaseIndex-e2.phaseIndex);
+ return phases.map((p,i)=>({
+  ...p,
+  events:events.filter(ev=>ev.phaseIndex===i)
+ }));
+}
 function bible(u){const line=s=>String(s).replace(/\r/g,'');return [`# ${line(u.title)}`,`*${u.format} · ${u.genre}*`,`\n## Premise\n${u.concept}`,`\n## Thematic core\n${u.thematic_thesis}`,`\n## Setting and tone\n${u.setting}\n\n${u.tone}`,`\n## Approved cast`,...u.characters.map(c=>`\n### ${c.name}\n**${c.role} — ${c.archetype_label}**\n\n${c.backstory}\n\nCommunication: ${c.communication_style}\n\nEmotional baseline: ${c.emotional_baseline}\n\nDesire: ${c.core_desire}\n\nFear: ${c.core_fear}\n\nTendencies:\n${c.tendencies.map(x=>'- '+x).join('\n')}\n\nVoice samples:\n${c.voice_samples.map(x=>'> '+x).join('\n>\n')}\n\nAppearance: ${c.appearance}`),`\n## Relationship map`,...u.relationships.map(e=>`\n### ${names(u,e.source)} → ${names(u,e.target)}: ${e.label}\n\nShared event: ${e.shared_history}\n\n${names(u,e.source)} wants: ${e.source_wants}\n\n${names(u,e.target)} wants: ${e.target_wants}\n\nTheir interpretations:\n- ${names(u,e.source)}: ${e.source_read}\n- ${names(u,e.target)}: ${e.target_read}\n\nTension: ${e.tension}\n\nBreaking point: ${e.breaking_point}\n\nStory potential: ${e.story_potential}`),`\n## Relationship-derived story seeds`,...seeds(u).map(s=>`\n### ${s.title}\n${s.trigger}\n\n${s.hook}\n\n${s.question}\n\nSource relationship: ${s.relationship_id}`),`\n## Visual direction\n${JSON.stringify(u.visual,null,2)}`,`\n## Provenance and limits\nRevision ${u.revision}; source mode: ${u.provenance.mode}. ${u.provenance.source}\n\nStory seeds and visual prompts are compiled from the approved record, not a separate live model call. No images are generated by this application. Unaccepted proposals are excluded from this bible. Structural checks are not an assessment of literary quality.`].join('\n');}
 function promptKit(u,category='all'){return `# ${u.title} — visual asset prompt kit\n\nExport-only. No images generated. Revision ${u.revision}. Suggested aspect ratios are metadata, not model-specific API parameters.\n\n`+assets(u).filter(a=>category==='all'||a.category===category).map(a=>`## ${a.title}\nCategory: ${a.category} · Suggested aspect ratio: ${a.aspect_ratio}\n\n${a.prompt}\n`).join('\n');}
 // Standards-compliant stored ZIP with UTF-8 names. Small portable artifacts need no runtime dependency.
@@ -85,5 +157,5 @@ function zip(files){const enc=new TextEncoder(),parts=[],central=[];let offset=0
  const size=central.reduce((n,a)=>n+a.length,0),[end,v]=header(22);v.setUint32(0,0x06054b50,true);v.setUint16(8,Object.keys(files).length,true);v.setUint16(10,Object.keys(files).length,true);v.setUint32(12,size,true);v.setUint32(16,offset,true);
  const all=[...parts,...central,end],buf=new Uint8Array(all.reduce((n,a)=>n+a.length,0));let p=0;for(const a of all){buf.set(a,p);p+=a.length;}return buf;
 }
-return {clone,esc,slug,shape,validate,accept,reject,rename,same,fingerprint,names,assets,seeds,gaps,bible,promptKit,zip};
+return {clone,esc,slug,shape,validate,accept,reject,rename,same,fingerprint,names,assets,seeds,gaps,castAnalysis,archetypeConstellation,storyChronology,bible,promptKit,zip};
 });

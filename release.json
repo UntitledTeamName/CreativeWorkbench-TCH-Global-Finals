@@ -10,6 +10,6 @@
   "repository": "https://github.com/mrc2rules/CharacterOS.git",
   "release_tag": "v1.1.0",
   "min_python": "3.10",
-  "runtime_sha256": "fafdd60a59b0b15efa50f49c02138ae65964e597ccc70ace8f5f8bd0ed0ec45f",
-  "skill_sha256": "3ee5a41d94affb6098625711174439f8763d20c12139568c54274c1b07133f7c"
+  "runtime_sha256": "cd283e8713d707305e859f55a6aeecdac6c9d083f4151a2d79fa75c51c5e1305",
+  "skill_sha256": "6cd55cf9b618678bc0bc65f18c62c250e870fbf71140e7e35933c33ca1cdf840"
 }
