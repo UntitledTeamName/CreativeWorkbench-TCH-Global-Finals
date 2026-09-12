@@ -8,8 +8,8 @@
   "wheel": "dist/story_universe_architect_workbench-1.1.0-py3-none-any.whl",
   "skill_zip": "dist/CharacterOS.zip",
   "sha256": {
-    "wheel": "cd283e8713d707305e859f55a6aeecdac6c9d083f4151a2d79fa75c51c5e1305",
-    "skill": "6cd55cf9b618678bc0bc65f18c62c250e870fbf71140e7e35933c33ca1cdf840"
+    "wheel": "9d3e61eef540d8cbe5d15d005952632a592d4110e9f73f9a6fdaa9d673491ded",
+    "skill": "2144916f18497020e7f46b2fad90441ad242b2ae24be20524cc0822d5b77a292"
   },
   "compatibility": {
     "python": ">=3.10",
@@ -20,6 +20,7 @@
   "files": {
     "src/story_universe_architect/__init__.py": "a3858ba3d900b0eb701404225269ee3b1a492db1d556e4b4af088b679c2dbcc8",
     "src/story_universe_architect/__main__.py": "03468c387e5d560971bdc11fefff857d5b2334ff55c9ecc0d2c946cbe7a21db3",
+    "src/story_universe_architect/_icon.png": "2c10521a9a4b89a5f9afc98ee3585f31454eef14c63be085e397da8c6ec01a55",
     "src/story_universe_architect/cli.py": "2f75400399d6ada3f58d4f7c19b336d51dd4d21a725d2a0b0293bc52d4bb09f1",
     "src/story_universe_architect/model.py": "e6fef3a94d3ef4b8ee71e6de11c996e69d79ad9774a09ecffd3320e2155188d6",
     "src/story_universe_architect/schemas/archetypes.json": "7e86ac99eb7f66ac58259c959b0b8a6d71259de93082397a8326e3db68d89f4b",
